@@ -6,7 +6,7 @@ import Bullionaire from './Bullionaire';
 
 ReactDOM.render(
     <Bullionaire />,
-  document.getElementById('root')
+	document.getElementById('root')
 );
 
 

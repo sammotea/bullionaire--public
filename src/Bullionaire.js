@@ -4,6 +4,7 @@ import rawTransactions	from './json/transactions.json';
 import fakeSpotPrices 	from './json/fake_bullion';
 
 import Parser 			from './_helpers/transactionParser';
+import TestParser		from './_helpers/tp';
 
 import Summary 			from './_components/Summary';
 import Holdings 		from './_components/Holdings';
@@ -18,8 +19,9 @@ class Bullionaire extends React.Component {
 	
 	constructor( props ) {
 		super( props );
-		
+
 		this.parser = new Parser( rawTransactions.transactions );
+		this.test = new TestParser( rawTransactions.transactions );
 		
 		this.state	=	{
 
@@ -139,9 +141,7 @@ class Bullionaire extends React.Component {
 	render() {
 
 		const { transactions, spotPrices, aum }	= 	this.state;
-		
-		console.log( this.state );
-									
+											
 		return (
 		
 			<>
