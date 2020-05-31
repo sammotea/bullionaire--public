@@ -14,8 +14,15 @@ import Transactions 	from './_components/Transactions';
 
 class Bullionaire extends React.Component {
 	
-	useBullionApi	=	false;
-	bullionApi		=	'https://www.metals-api.com/api/latest?access_key=putumntqnjat4yrmbi7h3250wqviwmrgx8a83uwiznpg5y2jkl3yhsw91j22&base=GBP&symbols=XAU,XAG';
+	doTesting			=	true;
+	
+	useManualPrices		=	false;
+	manualSpotPrices	=	{
+		'gold'		:	5000,
+		'silver'	:	30
+	}
+	useBullionApi		=	false;
+	bullionApi			=	'https://www.metals-api.com/api/latest?access_key=putumntqnjat4yrmbi7h3250wqviwmrgx8a83uwiznpg5y2jkl3yhsw91j22&base=GBP&symbols=XAU,XAG';
 	
 	constructor( props ) {
 		super( props );
@@ -46,114 +53,67 @@ class Bullionaire extends React.Component {
 				
 					( result ) => {
 						
-						this.statifyAumAndSpotPrices( result )
+						const spotPrices = SpotPriceParser.transformSpotPriceObject( result );
 						
+						if( spotPrices ) {
+							this.updateWithSpotPrices( spotPrices );
+						}					
 					}
 				
 				);
 			
 		} else {
 			
-			this.statifyAumAndSpotPrices( fakeSpotPrices )
-			
+			const spotPrices = 	this.useManualPrices
+									? this.manualSpotPrices
+									: SpotPriceParser.transformSpotPriceObject( fakeSpotPrices );
+									
+			this.updateWithSpotPrices( spotPrices );
+						
 		}
 
 		
 	}
 	
-	statifyAumAndSpotPrices( prices ) {
+	updateWithSpotPrices( spotPrices ) {
 	
-		const spotPrices = SpotPriceParser.transformSpotPriceObject( prices );
-		
 		if( spotPrices ) {
-		
 			this.parser.setAssetsUnderManagement( spotPrices );
-									
+										
 			this.setState({
 				hasPrices		:	true
 			});
 			
+			this.runSomeHaphazardTests();
 		}
-		
-		this.runSomeHaphazardTests();
 		
 	}
 	
 	runSomeHaphazardTests() {
 		
-		[
-			'getTransactions',
-			'getTransactionsByYear',
-			'getTransactionsByAsset',
-			'getAssetTypes',
-			'getCostOfAssetsUnderManagement',
-			'getValueOfAssetsUnderManagement',
-			'getQuantityOfAssetsUnderManagement'
-			
-		].forEach( fn => {
-			
-			console.log( '#############' );
-			console.log( 'Testing Parser.' + fn + '()…' );
-			console.log( this.parser[ fn ]() );
-			console.log( '#############' );
-			
-		});
+		if( this.doTesting ) {
 		
-	}
-	
-	transformSpotPrices( spotPrices ) {
-		
-		if( spotPrices && spotPrices.rates ) {
-		
-			let transformedPrices	=	{};
-			
-			for( const type in spotPrices.rates ) {
+			[
+				'getTransactions',
+				'getTransactionsByYear',
+				'getTransactionsByAsset',
+				'getAssetTypes',
+				'getCostOfAssetsUnderManagement',
+				'getValueOfAssetsUnderManagement',
+				'getQuantityOfAssetsUnderManagement'
 				
-				transformedPrices[ this.englishify( type ) ] = this.kiloify( spotPrices.rates[ type ], spotPrices.unit );
+			].forEach( fn => {
 				
-			}
-						
-			return transformedPrices;
-			
-		} else { return false; }
+				console.log( '#############' );
+				console.log( 'Testing Parser.' + fn + '()…' );
+				console.log( this.parser[ fn ]() );
+				console.log( '#############' );
+				
+			});
 		
-		
-	}
-	
-	kiloify( amount, unit ) {
-		
-		switch( unit ) {
-			
-			case 'per ounce'	:
-				amount = amount * 32.151;
-			break;
-			
-			default :
-				amount = false;
-			
 		}
 		
-		return amount;
-		
 	}
-	
-	englishify( name ) {
-		
-		switch( name ) {
-			
-			case 'XAG'	:
-				name = 'silver'
-				break;
-				
-			case 'XAU'	:
-				name = 'gold';
-				break;
-			
-		}
-		
-		return name;
-	}
-	
 	
 	render() {
 

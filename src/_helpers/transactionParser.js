@@ -99,9 +99,7 @@ class Parser {
 	}
 	
 	setAssetsUnderManagement( spotPrices ) {
-		
-		console.log( spotPrices );
-		
+				
 		const allAssetsAccountedFor	=	this.checkHaveAllAssets( spotPrices );
 				
 		if( allAssetsAccountedFor ) {
@@ -119,9 +117,7 @@ class Parser {
 				aum[ 'byAsset' ][ asset ]	=	this.calculateAssetTotals( asset, spotPrices[ asset ] );
 				
 			});
-			
-			console.log( aum );
-			
+						
 			aum[ 'total' ] = this.calculateTotals( aum[ 'byAsset' ] );
 			this.assetsUnderManagement = aum;
 			this.aumIsKnown	=	true;
@@ -143,7 +139,7 @@ class Parser {
 		let assetIsMissing	=	false;
 		
 		assets.forEach( asset => {
-		
+			
 			if( !Number.parseFloat( spotPrices[ asset ] ) > 0 ) {
 				
 				assetIsMissing = true;
@@ -179,18 +175,14 @@ class Parser {
 	}
 	
 	calculateTotals( assetTotals ) {
-		
-		console.log( assetTotals );
-		
+				
 		const totals	=	{
 			'value'	:	0,
 			'cost'	:	0
 		};
 		
 		for( let asset in assetTotals ) {
-			
-			console.log( asset );
-			
+						
 			totals[ 'value' ] += assetTotals[ asset ][ 'value' ];
 			totals[ 'cost' ] += assetTotals[ asset ][ 'cost' ];
 			
