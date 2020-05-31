@@ -3,8 +3,8 @@ import React from 'react';
 import rawTransactions	from './json/transactions.json';
 import fakeSpotPrices 	from './json/fake_bullion';
 
-import Parser 			from './_helpers/transactionParser';
-import TestParser		from './_helpers/tp';
+import Parser			from './_helpers/transactionParser';
+import SpotPriceParser	from './_helpers/spotPriceParser';
 
 import Summary 			from './_components/Summary';
 import Holdings 		from './_components/Holdings';
@@ -21,11 +21,10 @@ class Bullionaire extends React.Component {
 		super( props );
 
 		this.parser = new Parser( rawTransactions.transactions );
-		this.test = new TestParser( rawTransactions.transactions );
 		
 		this.state	=	{
 
-			transactions	:	{}
+			hasPrices	:	false
 			
 		}
 				
@@ -35,7 +34,7 @@ class Bullionaire extends React.Component {
 		
 		this.setState({
 			
-			transactions	:	this.parser.getRefinedTransactions(),
+			transactions	:	this.parser.getTransactions(),
 						
 		});
 		
@@ -64,22 +63,40 @@ class Bullionaire extends React.Component {
 	
 	statifyAumAndSpotPrices( prices ) {
 	
-		const 	aum 		= this.parser.getTransactionSums();
-		const	spotPrices	= this.transformSpotPrices( prices );
+		const spotPrices = SpotPriceParser.transformSpotPriceObject( prices );
 		
-		for( let type in aum ) {
-			
-			if( type in spotPrices ) {
-				
-				aum[ type ][ 'currentValue' ] = aum[ type ][ 'quantity' ] * spotPrices[ type ];
-				
-			}
+		if( spotPrices ) {
+		
+			this.parser.setAssetsUnderManagement( spotPrices );
+									
+			this.setState({
+				hasPrices		:	true
+			});
 			
 		}
-									
-		this.setState({
-			spotPrices		:	spotPrices,
-			aum				:	aum
+		
+		this.runSomeHaphazardTests();
+		
+	}
+	
+	runSomeHaphazardTests() {
+		
+		[
+			'getTransactions',
+			'getTransactionsByYear',
+			'getTransactionsByAsset',
+			'getAssetTypes',
+			'getCostOfAssetsUnderManagement',
+			'getValueOfAssetsUnderManagement',
+			'getQuantityOfAssetsUnderManagement'
+			
+		].forEach( fn => {
+			
+			console.log( '#############' );
+			console.log( 'Testing Parser.' + fn + '()…' );
+			console.log( this.parser[ fn ]() );
+			console.log( '#############' );
+			
 		});
 		
 	}

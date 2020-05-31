@@ -1,72 +1,367 @@
-class transactionParser {
+class Parser {
 	
-	rawTransactions		=	{};
-	refinedTransactions	=	{};
-	groupedTransactions	=	{};
-	transactionSums		=	{};
+	/***
+	****	Some Assumptions
+	****
+	****	1) raw transactions are already date-ordered
+	****	2) All key / values are as expected
+	****		-> There are no real checks or error reports if wrong
+	***/
 	
-	constructor( transactions ) {
+	rawTransactions			=	{};
+	transactions			=	{};
+	transactionsByYear		=	{};
+	transactionByAsset		=	{};
+	assetsUnderManagement	=	{};
+	aumIsKnown				=	false;
+	
+	constructor( transactionsArray ) {
 		
-		// store a copy
-		this.rawTransactions = transactions;
-		
-		const refinedTransactions	=	{};
+		const transactions = [ ...transactionsArray ];
 		
 		if( Array.isArray( transactions ) ) {
 			
-			transactions.forEach( t => {
-				
-				let transaction = this.refineTransaction( t );
-				
-				const { type } = transaction;
-				
-				if( !refinedTransactions[ type ] ) {
-					refinedTransactions[ type ] = [];
-				}
-					
-				refinedTransactions[ type ].push( transaction );
-				
-			});
+			let refinedTransactions		= 	this.mergeAndRefineTransactions( transactions );
+			let categorisedTransactions	=	this.categoriseTransactions( refinedTransactions );
+						
+			this.rawTransactions 		= 	transactionsArray;
+			this.transactions			=	refinedTransactions;
+			this.transactionsByYear		=	categorisedTransactions[ 'byYear' ];
+			this.transactionsByAsset	=	categorisedTransactions[ 'byAsset' ];
+			
+		} else {
+			
+			// error message
 			
 		}
-				
-		this.refinedTransactions 	= 	refinedTransactions;
-		this.transactionSums		=	this.sumTransactions( refinedTransactions );
-		this.groupedTransactions	=	this.groupTransactions( refinedTransactions );
+		
 	}
 	
-	sumTransactions( transactions ) {
+	getCostOfAssetsUnderManagement( asset ) {
 		
-		const transactionSums = {};
+		if( !this.aumIsKnown ) return false;
+		
+		const aum = { ...this.assetsUnderManagement };
+		
+		if( asset ) {
+		
+			return aum[ 'byAsset' ][ 'asset' ][ 'cost' ];
+			
+		} else {
+		
+			return aum[ 'total' ][ 'cost' ];
+			
+		}
+		
+	}
+	
+	getValueOfAssetsUnderManagement( asset ) {
+		
+		if( !this.aumIsKnown ) return false;
+		
+		const aum = { ...this.assetsUnderManagement };
+		
+		if( asset ) {
+			return aum[ 'byAsset' ][ 'asset' ][ 'value' ];
+			
+		} else {
+		
+			return aum[ 'total' ][ 'value' ];
+			
+		}
+		
+	}
+	
+	getQuantityOfAssetsUnderManagement( asset ) {		
+		
+		if( !this.aumIsKnown ) return false;
+		
+		const aum = { ...this.assetsUnderManagement };
+
+		if( asset ) {
+			
+			return aum[ 'byAsset' ][ 'asset' ][ 'quantity' ];
+		
+		} else {
+			
+			const quantities = {}
+			
+			for( let asset in aum[ 'byAsset' ] ) {
 				
-		for( let type in transactions ) {
-			
-			transactionSums[ type ] = {
-				'quantity'	:	0,
-				'price'		:	0
-			};
-			
-			for( let v in transactionSums[ type ] ) {
-								
-				transactionSums[ type ][ v ]
-					= transactions[ type ].reduce( function( accumulator, currentValue ) {
-					
-					return accumulator + currentValue[ v ];		
-							
-					}, 0);
+				quantities[ asset ] = aum[ 'byAsset' ][ asset ][ 'quantity' ];
 				
 			}
 			
+			return quantities;
 			
 		}
 		
-		return transactionSums;
+	}
+	
+	setAssetsUnderManagement( spotPrices ) {
 		
+		console.log( spotPrices );
+		
+		const allAssetsAccountedFor	=	this.checkHaveAllAssets( spotPrices );
+				
+		if( allAssetsAccountedFor ) {
+			
+			const assets	=	this.getAssetTypes();
+			const aum	=	{
+			
+				'total'		:	{},
+				'byAsset'	:	{}
+				
+			}		
+						
+			assets.forEach( asset => {
+								
+				aum[ 'byAsset' ][ asset ]	=	this.calculateAssetTotals( asset, spotPrices[ asset ] );
+				
+			});
+			
+			console.log( aum );
+			
+			aum[ 'total' ] = this.calculateTotals( aum[ 'byAsset' ] );
+			this.assetsUnderManagement = aum;
+			this.aumIsKnown	=	true;
+				
+			return true;
+			
+		} else {
+		
+			 return false;
+			 
+		}
+		
+		
+	}
+	
+	checkHaveAllAssets( spotPrices ) {
+		
+		const assets 	= this.getAssetTypes();
+		let assetIsMissing	=	false;
+		
+		assets.forEach( asset => {
+		
+			if( !Number.parseFloat( spotPrices[ asset ] ) > 0 ) {
+				
+				assetIsMissing = true;
+				
+			}
+		
+		});
+		
+		return !assetIsMissing;
+		
+	}
+	
+	calculateAssetTotals( asset, spotPrice ) {
+		
+		const transactionsByAsset = this.getTransactionsByAsset( asset );
+		const assetTotals	=	{
+			'value'		: 	undefined,
+			'cost'		:	0,
+			'quantity'	:	0
+		}
+		
+		transactionsByAsset.forEach( t => {
+			
+			assetTotals[ 'cost' ] 		+= t[ 'cost' ];
+			assetTotals[ 'quantity' ]	+= t[ 'quantity' ];
+			
+		});
+		
+		assetTotals[ 'value' ] = spotPrice * assetTotals[ 'quantity' ];
+		
+		return assetTotals;
+		
+	}
+	
+	calculateTotals( assetTotals ) {
+		
+		console.log( assetTotals );
+		
+		const totals	=	{
+			'value'	:	0,
+			'cost'	:	0
+		};
+		
+		for( let asset in assetTotals ) {
+			
+			console.log( asset );
+			
+			totals[ 'value' ] += assetTotals[ asset ][ 'value' ];
+			totals[ 'cost' ] += assetTotals[ asset ][ 'cost' ];
+			
+		}
+		
+		return totals;
+		
+	}
+	
+	getTransactions() {
+		
+		return this.transactions;
+		
+	}
+	
+	getTransactionsByYear( year = false, asset = false ) {
+		
+		const transactions	=	{ ...this.transactionsByYear };
+		let result;
+		
+		if( year ) {
+			
+			if( asset ) {
+				
+				result = transactions[ year ][ 'byAsset' ][ asset ];
+				
+			} else {
+				
+				result = transactions[ year ][ 'raw' ];
+				
+			}
+			
+		} else {
+			
+			result = transactions;
+			
+		}
+		
+		return result;
+		
+	}
+	
+	getTransactionsByAsset( asset = false, year = false ) {
+		
+		const transactions	=	{ ...this.transactionsByAsset };
+		let result;
+		
+		if( asset ) {
+			
+			if( year ) {
+				
+				result = transactions[ asset ][ 'byYear' ][ year ];
+				
+			} else {
+				
+				result = transactions[ asset ][ 'raw' ];
+				
+			}
+			
+		} else {
+			
+			result = transactions;
+			
+		}
+		
+		return result;
+		
+	}
+	
+	getAssetTypes() {
+		
+		const transactionsByAsset = this.getTransactionsByAsset();
+		
+		return Object.keys( transactionsByAsset );
+		
+	}
+	
+	errorMessage( message ) {
+		
+		return ( message ? message : undefined );
+				
+	}
+	
+	mergeAndRefineTransactions( rawTransactions ) {
+				
+				//	Need one extra for the merge loop
+		const 	rawTransactionsPlusFiller	=	rawTransactions.concat( {} ),	
+				refinedTransactions			=	[];
+		
+		let 	toMerge				=	[],
+				shouldMerge			=	false,		
+				previousTransaction	=	false;
+						
+		rawTransactionsPlusFiller.forEach( ( t, index ) => {
+			
+			let transaction = { ...t };
+			
+			/* First we merge like transactions */
+			if( previousTransaction ) {
+				
+				//	Stage for merging
+				if( t.date === previousTransaction.date &&
+					t.action === previousTransaction.action &&
+					t.asset === previousTransaction.asset
+				) {
+											
+					shouldMerge = true;
+					toMerge.push( previousTransaction );	
+										
+				} else {
+					
+					
+					// Ready for merging
+					if( shouldMerge === true ) {
+						
+						toMerge.push( previousTransaction );
+						
+						previousTransaction =	this.mergeTransactions( toMerge );
+						
+						refinedTransactions.push(
+							this.refineTransaction( previousTransaction )
+						);
+
+						// reset
+						toMerge		=	[];
+						shouldMerge	=	false;
+												
+					} else {
+						
+						refinedTransactions.push(
+							this.refineTransaction( previousTransaction )
+						);
+						
+					}
+					
+				}
+				
+			}
+				
+			previousTransaction = transaction;
+				
+			
+			
+		});
+		
+		return refinedTransactions;
+		
+	}
+	
+	mergeTransactions( transactionArray ) {
+				
+		let mergedTransaction	=	{ ...transactionArray[0] };
+
+		transactionArray.forEach( ( t, index ) => {
+			
+			[ 'cost', 'amount' ].forEach( v => {
+				
+				mergedTransaction[ v ] = ( index === 0 ) ?
+					t[ v ] :
+					mergedTransaction[ v ] + t[ v ];
+					
+			});
+			
+		});
+		
+		return mergedTransaction;
 		
 	}
 	
 	refineTransaction( transaction ) {
-		
+				
 		transaction	= 	this.renameAttributes( transaction );
 		transaction = 	this.typifyAttributes( transaction );
 		transaction	=	this.removeAttributes( transaction );
@@ -75,21 +370,11 @@ class transactionParser {
 		
 	}
 	
-	removeAttributes( transaction ) {
-		
-		let { from, id, location, action, unit, ...t } = transaction;
-		
-		return t;
-		
-	}
-	
 	renameAttributes( transaction ) {
 		
-		let { amount, asset, cost, ...t } = transaction;
+		let { amount, ...t } = transaction;
 		
 		t[ 'quantity' ] = 	amount;
-		t[ 'type' ]		=	asset;
-		t[ 'price' ]	=	cost;
 		
 		return t;
 		
@@ -101,7 +386,7 @@ class transactionParser {
 		
 		transaction[ 'date' ] = this.convertToDate( transaction[ 'date' ] );
 		
-		[ 'quantity', 'price' ].forEach( v => {
+		[ 'quantity', 'cost' ].forEach( v => {
 									
 			transaction[ v ] = parseFloat( transaction[ v ] );
 			
@@ -109,6 +394,7 @@ class transactionParser {
 			if( sell ) {
 				
 				transaction[ v ] = -transaction[ v ];
+				
 			} 			
 		});
 		
@@ -125,83 +411,112 @@ class transactionParser {
 		
 	}	
 	
-	groupTransactions( transactions ) {
+	removeAttributes( transaction ) {
 		
-		let groupedTransactions 	= 	{},
-			is_group				=	false;
+		let { from, id, location, unit, ...t } = transaction;
 		
-		let previousTransaction	= false;
+		return t;
 		
-		for( let type in transactions ) {
+	}
+	
+	categoriseTransactions( transactions ) {
+		
+	/***
+	****
+	****	categoriseTransaction object structure is:
+	****
+	****	{
+	****
+	****		'byYear'	:	{
+	****			
+	****			'2020'		:	{
+	****				
+	****				'byAsset'	:	{
+	****					
+	****					'assetOne'	:	[ {}{} ],
+	****					
+	****					'assetTwo'	:	[ {}{} ]
+	****					
+	****				}
+	****				
+	****				'raw'			:	[ {}{} ]
+	****				
+	****			}
+	****			
+	****		}
+	****		
+	****		'byAsset'	:	{
+	****			
+	****			'assetOne'		:	{
+	****				
+	****				'byYear'	:	{
+	****					
+	****					'2020'	:	[ {}{} ],
+	****					
+	****					'2019'	:	[ {}{} ]
+	****					
+	****				}
+	****				
+	****				'raw'			:	[ {}{} ]
+	****				
+	****			}
+	****			
+	****		}
+	****		
+	****	}
+	****
+	***/
+		
+		const categorisedTransactions	=	{
 			
-			let transactionGroup = [];
-			
-			groupedTransactions[ type ] = [];
-			
-			transactions[ type ].push( {} ); // need one extra for index loop
-			
-			transactions[ type ].forEach( ( t, index ) => {
-				
-				if( previousTransaction ) {
-					
-					//	This one is like the previous one so should be grouped
-					if( t.date === previousTransaction.date && t.action === previousTransaction.action ) {
-						is_group = true;
-						transactionGroup.push( previousTransaction );
-						
-					} else {
-						
-						// The previous loop item is part of the last group
-						if( is_group === true ) {
-							
-							// Add last one to group
-							transactionGroup.push( previousTransaction );
-							
-							// Add group to all
-							groupedTransactions[ type ].push( transactionGroup );
-							
-							// reset
-							transactionGroup = [];
-							is_group = false;
-						
-						} else {
-							 	
-							groupedTransactions[ type ].push( previousTransaction );
-							
-						}
-						
-					}
-					
-				}
-				
-				previousTransaction = t;
-				
-			});
+			'byYear'	:	{},
+			'byAsset'	:	{}
 			
 		}
-				 
-		return groupedTransactions;
 		
+		transactions.forEach( t => {
 		
-	}
-	
-	getGroupedTransactions( type = false ) {
+			const 	asset	=	t.asset,
+					year	=	t.date.getFullYear();			
+						/***
+			****	Make sure all these nested hierarchies exist (as arrays)
+			****	so we can get our .push() on
+			***/
+			
+			categorisedTransactions[ 'byYear' ][ year ]
+				= 	categorisedTransactions[ 'byYear' ][ year ] ||
+						{
+							'byAsset'	:	{},
+							'raw'		:	[]
+						};
+					
+			categorisedTransactions[ 'byYear' ][ year ][ 'byAsset' ][ asset ]
+				=	categorisedTransactions[ 'byYear' ][ year ][ 'byAsset' ][ asset ] ||
+						[];
+					
+			categorisedTransactions[ 'byAsset' ][ asset ]
+				= 	categorisedTransactions[ 'byAsset' ][ asset ] ||
+						{
+							'byYear'	:	{},
+							'raw'		:	[]
+						};
+						
+			categorisedTransactions[ 'byAsset' ][ asset ][ 'byYear' ][ year ]
+				= 	categorisedTransactions[ 'byAsset' ][ asset ][ 'byYear' ][ year ] ||
+						[];
+			
+			// Go, go, gadget!
+			categorisedTransactions[ 'byYear' ][ year ][ 'raw' ].push( t );
+			categorisedTransactions[ 'byAsset' ][ asset ][ 'raw' ].push( t );
+			categorisedTransactions[ 'byYear' ][ year ][ 'byAsset' ][ asset ].push( t );
+			categorisedTransactions[ 'byAsset' ][ asset ][ 'byYear' ][ year ].push( t );
 		
-		return type ? this.groupedTransactions[ type ] : this.groupedTransactions;
+		});
 		
-	}
-	
-	getRefinedTransactions() {
-				
-		return this.refinedTransactions;
-	}
-
-	getTransactionSums( type = false ) {
+		return categorisedTransactions;
 		
-		return type ? this.transactionSums[ type ] : this.transactionSums;
-
 	}
 	
 }
 
-export default transactionParser;
+export default Parser;
