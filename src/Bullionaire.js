@@ -3,8 +3,8 @@ import React from 'react';
 import rawTransactions	from './json/transactions.json';
 import fakeSpotPrices 	from './json/fake_bullion';
 
-import Parser			from './_helpers/transactionParser';
-import SpotPriceParser	from './_helpers/spotPriceParser';
+import Parser			from './_helpers/parsers/transactionParser';
+import SpotPriceParser	from './_helpers/parsers/spotPriceParser';
 
 import Summary 			from './_components/Summary';
 import Holdings 		from './_components/Holdings';
@@ -14,7 +14,7 @@ import Transactions 	from './_components/Transactions';
 
 class Bullionaire extends React.Component {
 	
-	doTesting			=	true;
+	doTesting			=	false;
 	
 	useManualPrices		=	false;
 	manualSpotPrices	=	{
@@ -116,20 +116,16 @@ class Bullionaire extends React.Component {
 	}
 	
 	render() {
-
-		const { transactions, spotPrices, aum }	= 	this.state;
-											
+													
 		return (
 		
 			<>
-			
-				<Transactions transactions={ transactions } />
-			
-				<Summary aum={ aum } />
+						
+				<Summary 
+					totalValue={ this.parser.getValueOfAssetsUnderManagement() }
+					totalCost={ this.parser.getCostOfAssetsUnderManagement() }
+				/>
 				
-				<Holdings aum={ aum } spotPrices={ spotPrices }/>
-				
-			
 			</>
 		
 		);
