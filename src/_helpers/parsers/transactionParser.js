@@ -37,6 +37,14 @@ class Parser {
 		
 	}
 	
+	getAssetsUnderManagement() {
+		
+		if( !this.aumIsKnown ) return false;
+		
+		return this.assetsUnderManagement;
+		
+	}
+	
 	getCostOfAssetsUnderManagement( asset ) {
 		
 		if( !this.aumIsKnown ) return false;

@@ -7,7 +7,7 @@ import Parser			from './_helpers/parsers/transactionParser';
 import SpotPriceParser	from './_helpers/parsers/spotPriceParser';
 
 import Summary 			from './_components/Summary';
-import Holdings 		from './_components/Holdings';
+import AssetSnapshotAll from './_components/AssetSnapshotAll';
 import Transactions 	from './_components/Transactions';
 
 
@@ -124,6 +124,10 @@ class Bullionaire extends React.Component {
 				<Summary 
 					totalValue={ this.parser.getValueOfAssetsUnderManagement() }
 					totalCost={ this.parser.getCostOfAssetsUnderManagement() }
+				/>
+				
+				<AssetSnapshotAll
+					aum={ this.parser.getAssetsUnderManagement() }
 				/>
 				
 			</>

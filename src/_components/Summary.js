@@ -19,7 +19,7 @@ class Summary extends React.Component {
 				<h2>
 					{ f.poundify( balance ) }
 					{ balance > 0 ? ' profit' : ' loss' }
-					{ ' ' }({ balance > 0 ? '+' + percDiff : percDiff }%)
+					{ ' ' }({ balance > 0 ? '+' + percDiff : percDiff })
 				</h2>
 				
 			</>

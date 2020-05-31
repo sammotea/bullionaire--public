@@ -10,7 +10,7 @@ class Formatter {
 	
 	static percentify( number ) {
 		
-		return number.toFixed( 2 ) * 100;
+		return ( number.toFixed( 2 ) * 100 ) + '%';
 	}
 }
 
