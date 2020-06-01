@@ -5,14 +5,20 @@ class TransactionListYearGroup extends React.Component {
 
 	render() {
 		
-		const { year, transactions } 	= 	this.props;
+		const { year, transactions, showAssets, showActions } 	= 	this.props;
 		const transactionItems			=	[];
 		const dFormatter				=	Intl.DateTimeFormat('en-US');	
 		
 		if( Array.isArray( transactions ) ) {
+			
 			transactions.forEach( t => {
 				
 				let { date, ...props } = t;
+				
+				if(
+					( showAssets !== 'all' && showAssets !== t.asset ) ||
+					( showActions !== 'all' && showActions !== t.action )
+				) { return; }
 				
 				date = dFormatter.format( t.date );
 				
@@ -31,17 +37,13 @@ class TransactionListYearGroup extends React.Component {
 			
 		return(
 		
-			<div>
+			<>
 				
-				<h1>{ year }</h1>
+				{ transactionItems.length > 0 && <h1>{ year }</h1> }
 				
-				<ul>
+				{ transactionItems.length > 0 && <ul>{ transactionItems }</ul> }
 					
-					{ transactionItems }
-				
-				</ul>
-					
-			</div>
+			</>
 		
 		)
 	}

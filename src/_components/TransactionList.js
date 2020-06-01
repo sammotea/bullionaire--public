@@ -5,16 +5,20 @@ class TransactionList extends React.Component {
 
 	render() {
 
-		const transactionsByYear 	= this.props.transactionsByYear;
-		const yearGroups			=	[];
-		
+		const { transactionsByYear, showPeriods, showAssets, showActions } 	= this.props;
+		const yearGroups =	[];
+				
 		for( const year in transactionsByYear ){
-			
+						
+			if( showPeriods !== 'all' && showPeriods !== year ) continue;
+				
 			yearGroups.push(
 				<TransactionListYearGroup
 					key={ year }
 					transactions={ transactionsByYear[ year ][ 'raw' ] }
 					year={ year }
+					showAssets={ showAssets }
+					showActions={ showActions }
 				/>
 			);
 			

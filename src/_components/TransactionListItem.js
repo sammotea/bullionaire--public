@@ -10,9 +10,12 @@ class TransactionListItem extends React.Component {
 		return(
 			<li>
 			
-				<h1>{ action } { asset }, { f.poundify( cost ) }</h1>
+				<div style={ { 'textTransform' : 'uppercase', 'fontWeight' : 'bold' } }>{ action } { asset }, { f.poundify( cost ) }</div>
 				
-				<div>{ quantity.toFixed( 2 ) }kg @ { f.poundify( cost / quantity ) }/kg on { date }</div>
+				<div>
+				
+					<small>{ quantity.toFixed( 2 ) }kg @ { f.poundify( cost / quantity ) }/kg on { date }</small>
+				</div>
 			
 			</li>
 		)
