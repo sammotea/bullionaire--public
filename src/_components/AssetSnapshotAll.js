@@ -5,13 +5,14 @@ class AssetSnapshotAll extends React.Component {
 	
 	render() {
 		
-		const snapshots		=	[];
+		let snapshots		=	'Nothing to see…';
 				
 		if( this.props.aum ) {
 			
 			const aumByAsset	=	this.props.aum.byAsset;
 			const totalValue	=	this.props.aum.total.value;
 			
+			snapshots		=	[];
 		
 			for ( const asset in aumByAsset ) {
 			
