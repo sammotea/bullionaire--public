@@ -1,5 +1,6 @@
 import React from 'react';
 import TransactionNavigation from '../_components/TransactionNavigation';
+import TransactionSummary from '../_components/TransactionSummary';
 import TransactionList from '../_components/TransactionList';
 
 class Transactions extends React.Component {
@@ -28,7 +29,7 @@ class Transactions extends React.Component {
 	render() {
 		
 		const parser = this.props.transactionParser;
-		
+				
 		return(
 			
 			<>
@@ -39,6 +40,12 @@ class Transactions extends React.Component {
 					assets={ parser.getAssetTypes() }
 					periods={ parser.getTransactionPeriods() }
 					selectionHandler={ this.handleUserSelection }
+					{ ...this.state }
+				/>
+				
+				<TransactionSummary
+					transactionsByYear={ parser.getTransactionsByYear() }
+					transactionsByAsset={ parser.getTransactionsByAsset() }
 					{ ...this.state }
 				/>
 				
