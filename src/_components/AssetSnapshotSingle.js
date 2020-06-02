@@ -14,7 +14,7 @@ class AssetSnapshotSingle extends React.Component {
 			
 				<h1>{ assetName } ({ f.percentify( proportionalValue ) })</h1>
 				
-				<h2>{ f.poundify( value ) } ({ quantity.toFixed( 2 ) }kg)</h2>
+				<h2>{ f.poundify( value ) } ({ f.kiloify( quantity ) })</h2>
 								
 				<ul>
 				

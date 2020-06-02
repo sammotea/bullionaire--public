@@ -14,7 +14,8 @@ class TransactionListItem extends React.Component {
 				
 				<div>
 				
-					<small>{ quantity.toFixed( 2 ) }kg @ { f.poundify( cost / quantity ) }/kg on { date }</small>
+					<small>{ f.kiloify( quantity ) } @ { f.poundify( cost / quantity ) }/kg on { date }</small>
+				
 				</div>
 			
 			</li>

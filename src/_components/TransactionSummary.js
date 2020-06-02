@@ -40,18 +40,20 @@ class TransactionSummary extends React.Component {
 			selectedTransactions = mergedAssets;
 						
 		}
+		
+		if( selectedTransactions ) {
+			selectedTransactions.forEach( t => {
 				
-		selectedTransactions.forEach( t => {
-			
-			if( showActions !== 'all' && t.action !== showActions ) return;
-			
-			if( t.action === 'buy' ) {
-				purchases += t.cost;
-			} else {
-				sales -= t.cost;
-			}
-			
-		});
+				if( showActions !== 'all' && t.action !== showActions ) return;
+				
+				if( t.action === 'buy' ) {
+					purchases += t.cost;
+				} else {
+					sales -= t.cost;
+				}
+				
+			});
+		}
 		
 		return(
 			<>
