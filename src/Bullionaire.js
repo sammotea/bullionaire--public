@@ -120,7 +120,7 @@ class Bullionaire extends React.Component {
 		return (
 		
 			<>
-						
+				
 				<Summary 
 					totalValue={ this.parser.getValueOfAssetsUnderManagement() }
 					totalCost={ this.parser.getCostOfAssetsUnderManagement() }
@@ -128,6 +128,10 @@ class Bullionaire extends React.Component {
 				
 				<AssetSnapshotAll
 					aum={ this.parser.getAssetsUnderManagement() }
+				/>
+				
+				<Transactions
+					transactionParser={ this.parser } 
 				/>
 				
 			</>
