@@ -1,72 +1,126 @@
-import React from 'react'
+import React 	from 'react'
+import f 		from '../_helpers/formatter';
 
 class TransactionNavigation extends React.Component {
-
+	
+	setOptionValue( option, selectID ) {
+		
+		return option;
+		
+	}
+	
+	setOptionName( option, selectID ) {
+	
+		switch( option ) {
+			
+			case 'buy'	:
+				option = 'purchases';
+				break;
+				
+			case 'sell'	:
+				option = 'sales';
+				break;
+				
+			case 'all'	:
+				option = 'All ' + selectID;
+				break;
+				
+		}
+		
+		return option;
+	
+	}
+	
+	getSelectOptions( optionsArray, selectID ) {
+				
+		const options 		=	[];
+		const optionsLoop	=	optionsArray.concat( [ 'all' ] ); // Add a default selection
+		
+		optionsLoop.forEach( option => {
+				
+			const optionValue 	= this.setOptionValue( option, selectID );
+			const optionName	= this.setOptionName( option, selectID );
+			
+			options.push(
+				<option key={ optionValue } value={ optionValue }>
+					{ optionName }
+				</option>
+			);
+		
+		});
+		
+		return options;
+		
+	}
+	
+	maybeAddConjunction( selectID ) {
+		
+		let conj;
+		
+		switch( selectID ) {
+			
+			case 'periods'	:
+				conj = ' for '; break;
+			
+			case 'assets'	:
+				conj = ' of '; break;
+			
+		}
+		
+		return conj;
+		
+	}
+	
+	getSelects( selectsObject ) {
+		
+		const selectsGroup	=	[];
+		
+		for( const selectID in selectsObject ) {
+			
+			const selectOptions	=	this.getSelectOptions( selectsObject[ selectID ], selectID );
+			const selected		=	this.props[ f.showify( selectID ) ];
+			const conj			=	this.maybeAddConjunction( selectID );
+			
+			selectsGroup.push(
+				
+				<React.Fragment key={ selectID }>
+				
+					{ conj && <span>{ conj }</span> }
+					
+					<select id={ selectID } onChange={ this.props.selectionHandler } value={ selected }>
+					
+						{ selectOptions }
+					
+					</select>
+				
+				</React.Fragment>
+				
+			)
+			
+		}
+		
+		return selectsGroup;
+	}
+	
 	render() {
 		
-		const 	{ assets, periods, selectionHandler } = this.props;
-		const 	actions = [ 'buy', 'sell' ];
-		
-		const 	variables = {
-					'actions'	:	actions,
+		const 	{ assets, periods } = this.props;
+		const 	variables 		= {
+					'actions'	:	[ 'buy', 'sell' ],
 					'assets'	:	assets,
 					'periods'	:	periods,
 				};
 		
-		const	userSelections	=	[];
-		
-		for( const v in variables ) {
-						
-			const options 		= [];
-			const currentValue 	= this.props[ 'show' + v.charAt(0).toUpperCase() + v.slice(1) ];
-			let conj, optionName;
-						
-			switch( v ) {
+		const	userSelections	=	this.getSelects( variables );
 				
-				case 'periods'	:
-				conj = ' for '; break;
-				
-				case 'assets'	:
-				conj = ' of '; break;
-				
-			}
-			
-			options.push( <option key="all" value="all">All { v }</option> );
-			
-			variables[ v ].forEach( o => {
-				
-				if( v === 'actions' ) {
-					optionName = ( o === 'buy' ? 'purchases' : 'sales' );
-				} else {
-					optionName = o;
-				}
-				
-				options.push( <option key={ o } value={ o }>
-					{ optionName }
-				</option> );
-				
-			});
-			
-			if( conj ) {
-				userSelections.push(
-					<span key={ conj }>{ conj }</span>
-				);
-			}
-			
-			userSelections.push(
-				<select key={ v } id={ v } onChange={ selectionHandler } value={ currentValue }>
-					{ options }
-				</select>
-			);
-			
-		}
-		
 		return(
+		
 			<div>
 				
 				Showing { userSelections }
 			
 			</div>
+			
 		)
 	}
 

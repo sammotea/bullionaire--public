@@ -6,6 +6,9 @@ class Summary extends React.Component {
 	render() {
 		
 		const { totalValue, totalCost } = this.props;
+		
+		if( !totalValue || !totalCost ) return false;
+		
 		const balance = totalValue - totalCost;
 		const percDiff = f.percentify( balance / totalCost );
 		
@@ -15,7 +18,7 @@ class Summary extends React.Component {
 				<h1>
 					Total: { f.poundify( totalValue ) }
 				</h1>
-								
+						
 				<h2>
 					{ f.poundify( balance ) }
 					{ balance > 0 ? ' profit' : ' loss' }

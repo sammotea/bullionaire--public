@@ -1,30 +1,31 @@
-import React from 'react'
-import TransactionListItem from '../_components/TransactionListItem';
+import React 				from 'react'
+import f 					from '../_helpers/formatter';
+
+import TransactionListItem 	from '../_components/TransactionListItem';
 
 class TransactionListYearGroup extends React.Component {
 
-	render() {
+	getTransactionListItems() {
 		
-		const { year, transactions, showAssets, showActions } 	= 	this.props;
-		const transactionItems			=	[];
-		const dFormatter				=	Intl.DateTimeFormat('en-US');	
-		
+		const { transactions, showAssets, showActions } 	= 	this.props;
+		const transactionListItems	=	[];
+
 		if( Array.isArray( transactions ) ) {
 			
 			transactions.forEach( t => {
-				
-				let { date, ...props } = t;
-				
+					
 				if(
 					( showAssets !== 'all' && showAssets !== t.asset ) ||
 					( showActions !== 'all' && showActions !== t.action )
 				) { return; }
 				
-				date = dFormatter.format( t.date );
+				let { date, ...props }  = t;	
+				let id;
 				
-				const id	=	t.asset + t.action + date;
+				date 	= 	f.datify( date );
+				id 		=	t.asset + t.action + date;
 				
-				transactionItems.push(
+				transactionListItems.push(
 					<TransactionListItem
 						key={ id }
 						date={ date }
@@ -34,18 +35,34 @@ class TransactionListYearGroup extends React.Component {
 				
 			});
 		}
+		
+		return transactionListItems;
+
+	}
+
+	render() {
+		
+		const transactionItems	=	this.getTransactionListItems();
+		
+		if( transactionItems.length <= 0 ) {
 			
-		return(
+			return false;
+			
+		} else {
 		
-			<>
-				
-				{ transactionItems.length > 0 && <h1>{ year }</h1> }
-				
-				{ transactionItems.length > 0 && <ul>{ transactionItems }</ul> }
+			return(
+			
+				<>
 					
-			</>
-		
-		)
+					<h1>{ this.props.year }</h1>
+					
+					<ul>{ transactionItems }</ul>
+						
+				</>
+			
+			)
+			
+		}
 	}
 
 }

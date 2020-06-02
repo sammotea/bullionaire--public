@@ -8,7 +8,12 @@ class _Formatter {
 	
 	defineFormatters() {
 		
-		this.currencyFormatter = new Intl.NumberFormat( 'en-UK',  { style: 'currency', currency: 'GBP' } );
+		this.currencyFormatter 	= 
+			new Intl.NumberFormat( 'en-UK',  { style: 'currency', currency: 'GBP' } );
+			
+		this.dateFormatter		=
+			new Intl.DateTimeFormat('en-US');
+				
 		
 	}
 	
@@ -27,6 +32,17 @@ class _Formatter {
 	percentify( number ) {
 		
 		return ( number.toFixed( 2 ) * 100 ) + '%';
+	}
+	
+	datify( date ) {
+	
+		return this.dateFormatter.format( date );
+	
+	}
+	
+	showify( string ) {
+		
+		return 'show' + string.charAt(0).toUpperCase() + string.slice(1);
 	}
 	
 }

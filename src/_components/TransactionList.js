@@ -1,22 +1,24 @@
-import React from 'react';
+import React 					from 'react';
+
 import TransactionListYearGroup from '../_components/TransactionListYearGroup';
 
 class TransactionList extends React.Component {
-
-	render() {
-
+	
+	getYearGroups() {
+		
 		const { transactionsByYear, showPeriods, showAssets, showActions } 	= this.props;
 		const yearGroups =	[];
-				
+		
 		for( const year in transactionsByYear ){
 						
 			if( showPeriods !== 'all' && showPeriods !== year ) continue;
-				
-			yearGroups.push(
+			
+			// latest first
+			yearGroups.unshift(
 				<TransactionListYearGroup
 					key={ year }
-					transactions={ transactionsByYear[ year ][ 'raw' ] }
 					year={ year }
+					transactions={ transactionsByYear[ year ][ 'raw' ] }
 					showAssets={ showAssets }
 					showActions={ showActions }
 				/>
@@ -24,7 +26,13 @@ class TransactionList extends React.Component {
 			
 		} 
 		
-		yearGroups.reverse();
+		return yearGroups;
+		
+	}
+	
+	render() {
+
+		const yearGroups = this.getYearGroups();
 		
 		return(
 			<>

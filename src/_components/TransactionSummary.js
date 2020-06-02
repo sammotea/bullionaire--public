@@ -2,49 +2,75 @@ import React 	from 'react';
 import f 		from '../_helpers/formatter';
 
 class TransactionSummary extends React.Component {
-
-	render() {
+	
+	getTransactionsArray( transactionsObj ) {
+		
+		/***
+		****	transactionsByYear and transactionsByAsset
+		****	have a nested structure that groups transactions
+		****	by both a category (e.g. ByYear = { '2017 : [] })
+		****	and as an unordered list ( raw = [] )
+		***/
+		
+		if( !transactionsObj ) return false;
+		
+		return 	Array.isArray( transactionsObj )
+					?	transactionsObj
+					:	transactionsObj[ 'raw' ];
+		
+	}
+	
+	mergeTransactionsByAsset( transactions ) {
+	
+		let mergedAssets	=	[];
+			
+		for( const asset in transactions ) {
+			
+			mergedAssets =
+				mergedAssets.concat(
+					this.getTransactionsArray( transactions[ asset ] )
+				);
+			
+		}
+							
+		return mergedAssets;
+		
+	}
+	
+	filterTransactions() {
 		
 		const { showPeriods, showAssets, showActions } = this.props;
-		const { transactionsByYear, transactionsByAsset } = this.props;
-		let selectedTransactions = 	( showPeriods !== 'all' )
-										? transactionsByYear[ showPeriods ][ 'byAsset' ]
-										: transactionsByAsset;
-										
-		let purchases, sales;
-		purchases = sales = 0;
-		
-		if( showAssets !== 'all' ) {
+		const transactions	= 	( showPeriods === 'all' )
+									? this.props.transactionsByAsset
+									: this.props.transactionsByYear[ showPeriods ][ 'byAsset' ];
+		let filteredTransactions;
+				
+		if( showAssets === 'all' ) {
+			
+			filteredTransactions = this.mergeTransactionsByAsset( transactions );
 						
-			if( showPeriods === 'all' ) {
-				selectedTransactions = selectedTransactions[ showAssets ][ 'raw' ];
-			} else {
-				selectedTransactions = selectedTransactions[ showAssets ]
-			}
-			
-			
 		} else {
-						
-			let mergedAssets	=	[];
 			
-			for( const asset in selectedTransactions ) {
-				
-				if( showPeriods === 'all' ) {			
-					mergedAssets = mergedAssets.concat( selectedTransactions[ asset ][ 'raw' ] );
-				} else {
-					mergedAssets = mergedAssets.concat( selectedTransactions[ asset ] );
-				}
-				
-			}
-						
-			selectedTransactions = mergedAssets;
+			filteredTransactions = this.getTransactionsArray( transactions[ showAssets ] );
 						
 		}
 		
-		if( selectedTransactions ) {
-			selectedTransactions.forEach( t => {
+		return filteredTransactions;
+		
+	}
+	
+	render() {								
+		
+		const filteredTransactions = this.filterTransactions();
+		let purchases, sales;
 				
-				if( showActions !== 'all' && t.action !== showActions ) return;
+		if( filteredTransactions ) {
+		
+			purchases = sales = 0;
+		
+			filteredTransactions.forEach( t => {
+								
+				if( this.props.showActions !== 'all' && t.action !== this.props.showActions ) return;
 				
 				if( t.action === 'buy' ) {
 					purchases += t.cost;

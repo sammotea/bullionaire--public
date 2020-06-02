@@ -1,7 +1,6 @@
-import React from 'react';
+import React 			from 'react';
 
 import rawTransactions	from './json/transactions.json';
-import fakeSpotPrices 	from './json/fake_bullion';
 
 import Parser			from './_helpers/parsers/transactionParser';
 import SpotPriceParser	from './_helpers/parsers/spotPriceParser';
@@ -16,12 +15,11 @@ class Bullionaire extends React.Component {
 	
 	doTesting			=	false;
 	
-	useManualPrices		=	false;
+	useManualPrices		=	true;
 	manualSpotPrices	=	{
-		'gold'		:	5000,
-		'silver'	:	30
+		'gold'		:	44546,
+		'silver'	:	468
 	}
-	useBullionApi		=	false;
 	bullionApi			=	'https://www.metals-api.com/api/latest?access_key=putumntqnjat4yrmbi7h3250wqviwmrgx8a83uwiznpg5y2jkl3yhsw91j22&base=GBP&symbols=XAU,XAG';
 	
 	constructor( props ) {
@@ -45,8 +43,9 @@ class Bullionaire extends React.Component {
 						
 		});
 		
-		if( this.useBullionApi ) {
-		
+		if( !this.useManualPrices ) {
+			
+			// Pending: No fail state
 			fetch( this.bullionApi )
 				.then( res => res.json() )
 				.then(
@@ -64,9 +63,7 @@ class Bullionaire extends React.Component {
 			
 		} else {
 			
-			const spotPrices = 	this.useManualPrices
-									? this.manualSpotPrices
-									: SpotPriceParser.transformSpotPriceObject( fakeSpotPrices );
+			const spotPrices = 	this.manualSpotPrices;
 									
 			this.updateWithSpotPrices( spotPrices );
 						
@@ -83,34 +80,6 @@ class Bullionaire extends React.Component {
 			this.setState({
 				hasPrices		:	true
 			});
-			
-			this.runSomeHaphazardTests();
-		}
-		
-	}
-	
-	runSomeHaphazardTests() {
-		
-		if( this.doTesting ) {
-		
-			[
-				'getTransactions',
-				'getTransactionsByYear',
-				'getTransactionsByAsset',
-				'getAssetTypes',
-				'getCostOfAssetsUnderManagement',
-				'getValueOfAssetsUnderManagement',
-				'getQuantityOfAssetsUnderManagement'
-				
-			].forEach( fn => {
-				
-				console.log( '#############' );
-				console.log( 'Testing Parser.' + fn + '()…' );
-				console.log( this.parser[ fn ]() );
-				console.log( '#############' );
-				
-			});
-		
 		}
 		
 	}
