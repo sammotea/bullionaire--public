@@ -16,7 +16,7 @@ class Summary extends React.Component {
 			<>
 				
 				<h1>
-					Total: { f.poundify( totalValue ) }
+					{ f.poundify( totalValue ) }
 				</h1>
 						
 				<h2>

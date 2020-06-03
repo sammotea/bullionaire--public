@@ -1,0 +1,191 @@
+@import url("https://use.typekit.net/dle4jms.css");
+
+@import '__reset';
+@import '__mixins';
+
+$c--black	:	black;
+$c--1		:	#f2f2f2;
+$c--2		:	#ddd;
+$c--3		:	#333;
+$c--white	:	#ffffff;
+
+$c--text	:	$c--2;
+
+$space		:	1.5rem;
+
+$omega		:	.8rem;
+$alpha		:	1rem;
+$bravo		:	1.3rem;
+$charlie	:	1.67rem;
+$delta		:	2.6rem;
+
+html {
+	font-family: freight-sans-pro, sans-serif;
+	font-size: clamp( 18px, 3vw, 24px)
+}
+
+body {
+	color: $c--3;
+}
+
+.l-module {
+	padding: $space;
+	
+	& + & { 
+		border-top: 1px $c--2 solid;
+	}
+}
+
+.c-summary {
+	
+	h1 {
+		font-size: $delta;
+	}
+	
+	h2 {
+		font-size: $charlie;
+		font-weight: 400;
+	}
+	
+}
+
+.c-assets {
+	display: flex;
+	flex-wrap: wrap;
+	background-color: $c--1;
+}
+
+.c-asset {
+	width: 100%;
+	padding: .25*$space $space;
+	padding-right: 0;
+	border-left: .25rem $c--2 solid;
+	
+	
+	& + & {
+		margin-top: $space;
+	}
+	
+	h1 {
+		
+		text-transform: capitalize;;
+	}
+	
+	h1, h2 {
+		display: inline-block;
+		font-size: $charlie;
+		line-height: 1;
+	}
+	
+	h2 {
+		font-weight: normal;
+		
+		&:before {
+			content: ' (';
+			white-space: pre;
+		}
+		
+		&:after {
+			content: ')';
+		}
+	}
+	
+	small {
+		display: block;
+		font-size: $omega;
+		text-transform: uppercase;
+	}
+	
+	ul {
+		list-style: none;
+		margin-top: .5*$space;
+	}
+	
+	li {
+		
+		&:first-child {
+			font-size: $bravo;
+			margin-bottom: .5*$space;
+		}
+		
+		&:last-child {
+			font-weight: bold;
+		}
+	}
+}
+
+.c-transactions {
+	
+	> h1 {
+		font-size: $charlie;
+	}
+	
+}
+
+.c-transactions__filters {
+	padding-top: .5*$space;
+}
+
+.c-transactions__summaries {
+	padding: .5*$space 0;
+	font-size: $bravo;
+	
+	span {
+		display: block;
+	}
+}
+
+.c-transactions__list {
+	list-style: none;
+}
+
+.c-transactions__yearGroupTitle {
+	font-size: $bravo;
+	line-height: 1;
+	margin: .5*$space 0;
+	
+	li:first-child & {
+		margin-top: 0;
+	}
+}
+
+.c-transactions__list--transactions {
+	border-left: .25rem $c--3 solid;
+	padding: .25*$space 0;
+	margin-left: 1rem; // magic
+}
+
+.c-transaction {
+	margin-left: $space;
+	position: relative;
+	
+	&:before {
+		content: '';
+		position: absolute;
+		left: -$space;
+		top: 50%;
+		margin-top: -.125rem;
+		width: .5*$space;
+		border-top: .25rem $c--3 solid;
+		transform: translate3d( 0, -50%, 0 );
+	}
+	
+	& + & {
+		margin-top: .5*$space;
+	}
+	
+	h1 {
+		text-transform: uppercase;
+		
+		span + span {
+			&:before {
+				content: ', ';
+				white-space: pre;
+			}
+		}
+	}
+	
+	small {
+		font-size: $alpha;
+	}
+}

@@ -35,9 +35,12 @@ class TransactionList extends React.Component {
 		const yearGroups = this.getYearGroups();
 		
 		return(
-			<>
+			
+			<ul className="[ c-transactions__list c-transactions__list--yearGroups ]">
+			
 				{ yearGroups }
-			</>
+			
+			</ul>
 		)
 	}
 

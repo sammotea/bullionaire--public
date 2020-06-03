@@ -78,7 +78,8 @@ class Bullionaire extends React.Component {
 			this.parser.setAssetsUnderManagement( spotPrices );
 										
 			this.setState({
-				hasPrices		:	true
+				hasPrices		:	true,
+				spotPrices		:	spotPrices
 			});
 		}
 		
@@ -90,18 +91,31 @@ class Bullionaire extends React.Component {
 		
 			<>
 				
-				<Summary 
-					totalValue={ this.parser.getValueOfAssetsUnderManagement() }
-					totalCost={ this.parser.getCostOfAssetsUnderManagement() }
-				/>
+				<section className="[ l-module | c-summary ]">
 				
-				<AssetSnapshotAll
-					aum={ this.parser.getAssetsUnderManagement() }
-				/>
+					<Summary 
+						totalValue={ this.parser.getValueOfAssetsUnderManagement() }
+						totalCost={ this.parser.getCostOfAssetsUnderManagement() }
+					/>
 				
-				<Transactions
-					transactionParser={ this.parser } 
-				/>
+				</section>
+				
+				<section className="[ l-module | c-assets ]">
+				
+					<AssetSnapshotAll
+						aum={ this.parser.getAssetsUnderManagement() }
+						spotPrices={ this.state.spotPrices }
+					/>
+				
+				</section>
+					
+				<section className="[ l-module | c-transactions ]">
+				
+					<Transactions
+						transactionParser={ this.parser } 
+					/>
+				
+				</section>
 				
 			</>
 		

@@ -9,6 +9,7 @@ class AssetSnapshotAll extends React.Component {
 		const aumByAsset	=	aumObject.byAsset;
 		const totalValue	=	aumObject.total.value;
 		
+		console.log( this.props.spotPrices );
 		for ( const asset in aumByAsset ) {
 		
 			const { value, cost, quantity } = aumByAsset[ asset ];
@@ -21,6 +22,7 @@ class AssetSnapshotAll extends React.Component {
 					value={ value }
 					cost={ cost }
 					proportionalValue={ value / totalValue }
+					spotPrice={ this.props.spotPrices[ asset ] }
 				/>
 			);
 			

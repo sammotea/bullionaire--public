@@ -8,15 +8,21 @@ class TransactionListItem extends React.Component {
 		const { asset, cost, date, quantity, action } = this.props;
 		
 		return(
-			<li>
+		
+			<li className="[ c-transaction ]">
 			
-				<div style={ { 'textTransform' : 'uppercase', 'fontWeight' : 'bold' } }>{ action } { asset }, { f.poundify( cost ) }</div>
+				<h1>
 				
-				<div>
+					<span>{ action } { asset }</span>
+					<span>{ f.poundify( cost ) }</span>
+					
+				</h1>
 				
-					<small>{ f.kiloify( quantity ) } @ { f.poundify( cost / quantity ) }/kg on { date }</small>
+				<small>
 				
-				</div>
+					{ f.kiloify( quantity ) } @ { f.poundify( cost / quantity ) }/kg on { date }
+				
+				</small>
 			
 			</li>
 		)

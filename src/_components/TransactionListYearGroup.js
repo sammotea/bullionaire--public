@@ -52,13 +52,13 @@ class TransactionListYearGroup extends React.Component {
 		
 			return(
 			
-				<>
+				<li className="[ c-transactions__yearGroup ]">
 					
-					<h1>{ this.props.year }</h1>
+					<h1 className="[ c-transactions__yearGroupTitle ]">{ this.props.year }</h1>
 					
-					<ul>{ transactionItems }</ul>
+					<ul className="[ c-transactions__list c-transactions__list--transactions ]">{ transactionItems }</ul>
 						
-				</>
+				</li>
 			
 			)
 			

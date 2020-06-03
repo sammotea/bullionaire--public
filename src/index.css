@@ -1,0 +1,212 @@
+@import url("https://use.typekit.net/dle4jms.css");
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+iframe {
+  border: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+ul,
+ol,
+figure,
+button,
+blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  font-size: inherit;
+}
+
+a,
+button {
+  color: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  overflow: visible;
+  border: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  background: none;
+  cursor: pointer;
+  -webkit-font-smoothing: inherit;
+}
+button:focus {
+  outline: 0;
+}
+
+::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+img {
+  height: auto;
+  border: 0;
+}
+
+.clearFix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+html {
+  font-family: freight-sans-pro, sans-serif;
+  font-size: clamp(18px, 3vw, 24px);
+}
+
+body {
+  color: #333;
+}
+
+.l-module {
+  padding: 1.5rem;
+}
+.l-module + .l-module {
+  border-top: 1px #ddd solid;
+}
+
+.c-summary h1 {
+  font-size: 2.6rem;
+}
+.c-summary h2 {
+  font-size: 1.67rem;
+  font-weight: 400;
+}
+
+.c-assets {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #f2f2f2;
+}
+
+.c-asset {
+  width: 100%;
+  padding: 0.375rem 1.5rem;
+  padding-right: 0;
+  border-left: 0.25rem #ddd solid;
+}
+.c-asset + .c-asset {
+  margin-top: 1.5rem;
+}
+.c-asset h1 {
+  text-transform: capitalize;
+}
+.c-asset h1, .c-asset h2 {
+  display: inline-block;
+  font-size: 1.67rem;
+  line-height: 1;
+}
+.c-asset h2 {
+  font-weight: normal;
+}
+.c-asset h2:before {
+  content: " (";
+  white-space: pre;
+}
+.c-asset h2:after {
+  content: ")";
+}
+.c-asset small {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+.c-asset ul {
+  list-style: none;
+  margin-top: 0.75rem;
+}
+.c-asset li:first-child {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+.c-asset li:last-child {
+  font-weight: bold;
+}
+
+.c-transactions > h1 {
+  font-size: 1.67rem;
+}
+
+.c-transactions__filters {
+  padding-top: 0.75rem;
+}
+
+.c-transactions__summaries {
+  padding: 0.75rem 0;
+  font-size: 1.3rem;
+}
+.c-transactions__summaries span {
+  display: block;
+}
+
+.c-transactions__list {
+  list-style: none;
+}
+
+.c-transactions__yearGroupTitle {
+  font-size: 1.3rem;
+  line-height: 1;
+  margin: 0.75rem 0;
+}
+li:first-child .c-transactions__yearGroupTitle {
+  margin-top: 0;
+}
+
+.c-transactions__list--transactions {
+  border-left: 0.25rem #333 solid;
+  padding: 0.375rem 0;
+  margin-left: 1rem;
+}
+
+.c-transaction {
+  margin-left: 1.5rem;
+  position: relative;
+}
+.c-transaction:before {
+  content: "";
+  position: absolute;
+  left: -1.5rem;
+  top: 50%;
+  margin-top: -0.125rem;
+  width: 0.75rem;
+  border-top: 0.25rem #333 solid;
+  transform: translate3d(0, -50%, 0);
+}
+.c-transaction + .c-transaction {
+  margin-top: 0.75rem;
+}
+.c-transaction h1 {
+  text-transform: uppercase;
+}
+.c-transaction h1 span + span:before {
+  content: ", ";
+  white-space: pre;
+}
+.c-transaction small {
+  font-size: 1rem;
+}

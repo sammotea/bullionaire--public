@@ -82,14 +82,22 @@ class TransactionSummary extends React.Component {
 		}
 		
 		return(
-			<>
-				{ purchases > 0 && 'Bought ' + f.poundify( purchases ) }
-				
-				{ purchases > 0 && sales > 0 && ' / ' }
-				
-				{ sales > 0 && 'Sold ' + f.poundify( sales ) }
 			
-			</>
+			<div className="[ c-transactions__summaries ]">
+				
+				{ purchases > 0 &&
+					<span className="[ c-transactions__summary ]">
+						<b>Bought</b> { f.poundify( purchases ) }
+					</span>
+				}
+				
+				{ sales > 0 &&
+					<span className="[ c-transactions__summary ]">
+						<b>Sold</b> { f.poundify( sales ) }
+					</span>
+				}
+			
+			</div>
 		)
 	}
 

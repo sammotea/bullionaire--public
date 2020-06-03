@@ -5,20 +5,25 @@ class AssetSnapshotSingle extends React.Component {
 	
 	render() {
 		
-		const { assetName, quantity, value, cost, proportionalValue } = this.props;
+		const { assetName, quantity, value, cost, proportionalValue, spotPrice } = this.props;
 		const balance = value - cost;
 		
 		return (
 		
-			<>
-			
-				<h1>{ assetName } ({ f.percentify( proportionalValue ) })</h1>
+			<div className="[ c-asset ]">
+							
+				<h1>{ assetName }</h1>
 				
-				<h2>{ f.poundify( value ) } ({ f.kiloify( quantity ) })</h2>
-								
+				<h2>{ f.poundify( value ) }</h2>
+				
+				<small>{ f.percentify( proportionalValue ) } of AUM by value</small>
+							
 				<ul>
 				
-					<li>{ f.poundify( cost ) } spent at an average of { f.poundify( cost / quantity ) }/kg</li>
+					<li>{ f.kiloify( quantity ) } @ { f.poundify( spotPrice ) }</li>
+				
+					<li>Bought at { f.poundify( cost / quantity ) }/kg</li>
+					
 					<li>
 						{ f.poundify( balance ) }
 						{ balance >= 0 ? ' profit (+' : ' loss (' }
@@ -27,7 +32,7 @@ class AssetSnapshotSingle extends React.Component {
 				
 				</ul>
 				
-			</>
+			</div>
 			
 		)
 		

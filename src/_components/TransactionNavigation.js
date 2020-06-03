@@ -115,9 +115,9 @@ class TransactionNavigation extends React.Component {
 				
 		return(
 		
-			<div>
+			<div className="[ c-transactions__filters ]">
 				
-				Showing { userSelections }
+				{ userSelections }
 			
 			</div>
 			

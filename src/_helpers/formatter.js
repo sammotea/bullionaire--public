@@ -31,7 +31,8 @@ class _Formatter {
 	
 	percentify( number ) {
 		
-		return ( number.toFixed( 2 ) * 100 ) + '%';
+		return ( number * 100 ).toFixed( 0 ) + '%';
+		
 	}
 	
 	datify( date ) {
