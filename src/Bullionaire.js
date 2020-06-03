@@ -1,6 +1,6 @@
 import React 			from 'react';
 
-import rawTransactions	from './json/transactions.json';
+import rawTransactions	from './json/fakeTransactions.json';
 
 import Parser			from './_helpers/parsers/transactionParser';
 import SpotPriceParser	from './_helpers/parsers/spotPriceParser';

@@ -1,0 +1,177 @@
+{
+	
+	"transactions"	:	[
+		
+		{
+			"date"		:	"2020-02-19",
+			"asset"		:	"silver",
+			"action"	:	"buy",
+			"amount"	:	15.92,
+			"unit"		:	"kg",
+			"cost"		:	7235.24
+		},
+		
+		{
+			"date"		:	"2020-01-03",
+			"asset"		:	"gold",
+			"action"	:	"buy",
+			"amount"	:	0.322,
+			"unit"		:	"kg",
+			"cost"		:	12398.24
+		},
+		
+		{
+			"date"		:	"2020-01-03",
+			"asset"		:	"gold",
+			"action"	:	"buy",
+			"amount"	:	0.314,
+			"unit"		:	"kg",
+			"cost"		:	11987.45
+		},
+		
+		{
+			"date"		:	"2019-12-22",
+			"asset"		:	"gold",
+			"action"	:	"buy",
+			"amount"	:	0.013,
+			"unit"		:	"kg",
+			"cost"		:	503.45
+		},
+		
+		{
+			"date"		:	"2019-12-22",
+			"asset"		:	"gold",
+			"action"	:	"buy",
+			"amount"	:	0.001,
+			"unit"		:	"kg",
+			"cost"		:	37.43
+		},
+		
+		{
+			"date"		:	"2019-12-22",
+			"asset"		:	"gold",
+			"action"	:	"buy",
+			"amount"	:	0.334,
+			"unit"		:	"kg",
+			"cost"		:	15298.43
+		},
+		
+		{
+			"date"		:	"2019-11-13",
+			"asset"		:	"gold",
+			"action"	:	"buy",
+			"amount"	:	0.803,
+			"unit"		:	"kg",
+			"cost"		:	31349.34
+		},
+		
+		{
+			"date"		:	"2019-09-03",
+			"asset"		:	"gold",
+			"action"	:	"sell",
+			"amount"	:	0.729,
+			"unit"		:	"kg",
+			"cost"		:	26423.42
+		},
+		
+		{
+			"date"		:	"2018-04-17",
+			"asset"		:	"gold",
+			"action"	:	"sell",
+			"amount"	:	0.014,
+			"unit"		:	"kg",
+			"cost"		:	627.43
+		},
+		
+		{
+			"date"		:	"2018-04-17",
+			"asset"		:	"gold",
+			"action"	:	"sell",
+			"amount"	:	0.017,
+			"unit"		:	"kg",
+			"cost"		:	728.36
+		},
+		
+		{
+			"date"		:	"2018-03-21",
+			"asset"		:	"silver",
+			"action"	:	"buy",
+			"amount"	:	0.594,
+			"unit"		:	"kg",
+			"cost"		:	234.62
+		},
+		
+		{
+			"date"		:	"2016-07-21",
+			"asset"		:	"silver",
+			"action"	:	"buy",
+			"amount"	:	65.53,
+			"unit"		:	"kg",
+			"cost"		:	27449.23
+		},
+		
+		{
+			"date"		:	"2016-05-18",
+			"asset"		:	"gold",
+			"action"	:	"buy",
+			"amount"	:	0.125,
+			"unit"		:	"kg",
+			"cost"		:	4756.24
+		},
+		
+		{
+			"date"		:	"2016-05-18",
+			"asset"		:	"gold",
+			"action"	:	"buy",
+			"amount"	:	0.441,
+			"unit"		:	"kg",
+			"cost"		:	17280.24
+		},
+		
+		{
+			"date"		:	"2016-01-01",
+			"asset"		:	"gold",
+			"action"	:	"buy",
+			"amount"	:	0.314,
+			"unit"		:	"kg",
+			"cost"		:	8974.24
+		},
+		
+		{
+			"date"		:	"2015-03-03",
+			"asset"		:	"silver",
+			"action"	:	"buy",
+			"amount"	:	17.456,
+			"unit"		:	"kg",
+			"cost"		:	7945.24
+		},
+		
+		{
+			"date"		:	"2015-02-22",
+			"asset"		:	"gold",
+			"action"	:	"buy",
+			"amount"	:	0.127,
+			"unit"		:	"kg",
+			"cost"		:	4903.84
+		},
+		
+		{
+			"date"		:	"2014-11-11",
+			"asset"		:	"silver",
+			"action"	:	"buy",
+			"amount"	:	0.025,
+			"unit"		:	"kg",
+			"cost"		:	9.45
+		},
+		
+		{
+			"date"		:	"2014-09-11",
+			"asset"		:	"silver",
+			"action"	:	"buy",
+			"amount"	:	92.435,
+			"unit"		:	"kg",
+			"cost"		:	34657.76
+		}
+	]
+	
+}
