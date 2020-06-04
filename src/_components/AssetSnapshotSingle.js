@@ -20,7 +20,7 @@ class AssetSnapshotSingle extends React.Component {
 							
 				<ul>
 				
-					<li>{ f.kiloify( quantity ) } @ { f.poundify( spotPrice ) }</li>
+					<li>{ f.kiloify( quantity ) } @ { f.poundify( spotPrice ) }/kg</li>
 				
 					<li>Bought at { f.poundify( cost / quantity ) }/kg</li>
 					

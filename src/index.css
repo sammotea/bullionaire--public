@@ -213,18 +213,22 @@ body {
   list-style: none;
 }
 
-.c-transactions__list--yearGroups {
-  max-width: 75%;
-  margin-left: auto;
-  margin-right: auto;
+@media (min-width: 32rem) {
+  .c-transactions__list--yearGroups {
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
-.c-transactions__yearGroup {
-  position: relative;
-  padding-left: 2.25rem;
-}
-.c-transactions__yearGroup + .c-transactions__yearGroup {
-  margin-top: 1.5rem;
+@media (min-width: 32rem) {
+  .c-transactions__yearGroup {
+    position: relative;
+    padding-left: 2.25rem;
+  }
+  .c-transactions__yearGroup + .c-transactions__yearGroup {
+    margin-top: 1.5rem;
+  }
 }
 
 .c-transactions__yearGroupTitle {
@@ -263,7 +267,7 @@ body {
 .c-transaction:before {
   content: "";
   position: absolute;
-  left: -1.5rem;
+  left: -1.65rem;
   top: 50%;
   margin-top: -0.125rem;
   width: 0.75rem;

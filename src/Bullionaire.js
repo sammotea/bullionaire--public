@@ -13,8 +13,6 @@ import Transactions 	from './_components/Transactions';
 
 class Bullionaire extends React.Component {
 	
-	doTesting			=	false;
-	
 	useManualPrices		=	true;
 	manualSpotPrices	=	{
 		'gold'		:	43801,
@@ -24,8 +22,10 @@ class Bullionaire extends React.Component {
 	
 	constructor( props ) {
 		super( props );
-
-		this.parser = new Parser( rawTransactions.transactions );
+		
+		const transactions	=	this.pretendToParseExcelForTransactions();
+		
+		this.parser = new Parser( transactions );
 		
 		this.state	=	{
 
@@ -33,6 +33,12 @@ class Bullionaire extends React.Component {
 			
 		}
 				
+	}
+	
+	pretendToParseExcelForTransactions() {
+		
+		return rawTransactions.transactions;
+		
 	}
 	
 	componentDidMount() {
@@ -43,6 +49,7 @@ class Bullionaire extends React.Component {
 						
 		});
 		
+		// Only get 10 API calls a month, the snide bastards
 		if( !this.useManualPrices ) {
 			
 			// Pending: No fail state
