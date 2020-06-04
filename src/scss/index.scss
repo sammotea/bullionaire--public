@@ -19,6 +19,8 @@ $bravo		:	1.3rem;
 $charlie	:	1.67rem;
 $delta		:	2.6rem;
 
+$bp--1		:	32rem;
+
 html {
 	font-family: freight-sans-pro, sans-serif;
 	font-size: clamp( 18px, 3vw, 24px)
@@ -26,14 +28,13 @@ html {
 
 body {
 	color: $c--3;
+	max-width: 30rem;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .l-module {
 	padding: $space;
-	
-	& + & { 
-		border-top: 1px $c--2 solid;
-	}
 }
 
 .c-summary {
@@ -47,52 +48,41 @@ body {
 		font-weight: 400;
 	}
 	
+	@include bp( 'after', $bp--1 ) {
+		text-align: center;
+	}
+	
 }
 
 .c-assets {
 	display: flex;
-	flex-wrap: wrap;
 	background-color: $c--1;
+	border: 1px $c--2 solid;
+	
+	@include bp( 'before', $bp--1 ) {
+		flex-wrap: wrap;
+	}
 }
 
 .c-asset {
 	width: 100%;
-	padding: .25*$space $space;
-	padding-right: 0;
-	border-left: .25rem $c--2 solid;
-	
-	
-	& + & {
-		margin-top: $space;
-	}
 	
 	h1 {
-		
 		text-transform: capitalize;;
 	}
 	
 	h1, h2 {
-		display: inline-block;
 		font-size: $charlie;
-		line-height: 1;
 	}
 	
 	h2 {
 		font-weight: normal;
-		
-		&:before {
-			content: ' (';
-			white-space: pre;
-		}
-		
-		&:after {
-			content: ')';
-		}
 	}
 	
 	small {
 		display: block;
-		font-size: $omega;
+		font-size: $alpha;
+		margin-top: .125*$space;
 		text-transform: uppercase;
 	}
 	
@@ -112,26 +102,87 @@ body {
 			font-weight: bold;
 		}
 	}
+	
+	@include bp( 'before', $bp--1 ) {
+		padding: .25*$space $space;
+		padding-right: 0;
+		border-left: .25rem $c--2 solid;
+		
+		& + & {
+			margin-top: $space;
+		}
+		
+		h1, h2 {
+			display: inline-block;
+			line-height: 1;
+		}
+		
+		h2 {
+			&:before {
+				content: ' (';
+				white-space: pre;
+			}
+			
+			&:after {
+				content: ')';
+			}
+		}
+		
+	}
+	
+	@include bp( 'after', $bp--1 ) {
+		text-align: center;
+	}
+	
+	
 }
 
 .c-transactions {
 	
 	> h1 {
 		font-size: $charlie;
+		
+		@include bp( 'after', $bp--1 ) {
+			text-align: center;
+		}
 	}
 	
 }
 
 .c-transactions__filters {
 	padding-top: .5*$space;
+	
+	@include bp( 'after', $bp--1 ) {
+		text-align: center;
+	}
+	
 }
 
 .c-transactions__summaries {
 	padding: .5*$space 0;
 	font-size: $bravo;
 	
+	@include bp( 'after', $bp--1 ) {
+		text-align: center;
+	}
+	
 	span {
-		display: block;
+		
+		@include bp( 'before', $bp--1 ) {
+			display: block;
+		}
+		
+		@include bp( 'after', $bp--1 ) {
+			
+			& + span {
+				
+				&:before {
+					content: ' / ';
+					white-space: pre;
+				}
+			}
+			
+		}
 	}
 }
 
@@ -139,13 +190,42 @@ body {
 	list-style: none;
 }
 
+.c-transactions__list--yearGroups {
+	max-width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.c-transactions__yearGroup {
+	position: relative;
+	padding-left: 1.5*$space;
+	
+	& + & {
+		margin-top: $space;
+	}
+}
+
 .c-transactions__yearGroupTitle {
 	font-size: $bravo;
 	line-height: 1;
-	margin: .5*$space 0;
+		
+	@include bp( 'before', $bp--1 ) {
+		margin: .5*$space 0;
+		
+		li:first-child & {
+			margin-top: 0;
+		}	
+	}
 	
-	li:first-child & {
-		margin-top: 0;
+	
+	
+	@include bp( 'after', $bp--1 ) {
+		font-size: $alpha;
+		font-weight: normal;
+		position: absolute;
+		left: 0;
+		top: $space; // magic
+		transform: translate3d( 0, -50%, 0 );
 	}
 }
 

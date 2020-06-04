@@ -1,6 +1,6 @@
 import React 			from 'react';
 
-import rawTransactions	from './json/fakeTransactions.json';
+import rawTransactions	from './json/realTransactions.json';
 
 import Parser			from './_helpers/parsers/transactionParser';
 import SpotPriceParser	from './_helpers/parsers/spotPriceParser';
@@ -17,8 +17,8 @@ class Bullionaire extends React.Component {
 	
 	useManualPrices		=	true;
 	manualSpotPrices	=	{
-		'gold'		:	44546,
-		'silver'	:	468
+		'gold'		:	43801,
+		'silver'	:	454.31
 	}
 	bullionApi			=	'https://www.metals-api.com/api/latest?access_key=putumntqnjat4yrmbi7h3250wqviwmrgx8a83uwiznpg5y2jkl3yhsw91j22&base=GBP&symbols=XAU,XAG';
 	
