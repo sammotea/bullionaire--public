@@ -14,9 +14,9 @@ import Transactions 	from './_components/Transactions';
 class Bullionaire extends React.Component {
 	
 	useManualPrices		=	true;
-	manualSpotPrices	=	{
-		'gold'		:	43801,
-		'silver'	:	454.31
+	manualSpotPrices	=	{ // as of 03/01/2020
+		'gold'		:	40095.88,
+		'silver'	:	423.58
 	}
 	bullionApi			=	'https://www.metals-api.com/api/latest?access_key=putumntqnjat4yrmbi7h3250wqviwmrgx8a83uwiznpg5y2jkl3yhsw91j22&base=GBP&symbols=XAU,XAG';
 	
