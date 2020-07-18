@@ -1,53 +1,26 @@
-class _Formatter {
-			
-	constructor() {
-		
-		this.defineFormatters();
-		
-	}
-	
-	defineFormatters() {
-		
-		this.currencyFormatter 	= 
-			new Intl.NumberFormat( 'en-UK',  { style: 'currency', currency: 'GBP' } );
-			
-		this.dateFormatter		=
-			new Intl.DateTimeFormat('en-US');
-				
-		
-	}
-	
-	poundify( amount ) {
-						
-		return this.currencyFormatter.format( amount );
-		
-	}
-	
-	kiloify( number ) {
-		
-		return number.toFixed( 2 ) + 'kg';
-		
-	}
-	
-	percentify( number ) {
-		
-		return ( number * 100 ).toFixed( 0 ) + '%';
-		
-	}
-	
-	datify( date ) {
-	
-		return this.dateFormatter.format( date );
-	
-	}
-	
-	showify( string ) {
-		
-		return 'show' + string.charAt(0).toUpperCase() + string.slice(1);
-	}
-	
+const currencyFormatter = new Intl.NumberFormat("en-UK", {
+  style: "currency",
+  currency: "GBP",
+});
+
+const dateFormatter = new Intl.DateTimeFormat("en-US");
+
+export function poundify(amount) {
+  return currencyFormatter.format(amount);
 }
 
-const Formatter = new _Formatter();
+export function kiloify(number) {
+  return number.toFixed(2) + "kg";
+}
 
-export default Formatter;
+export function percentify(number) {
+  return (number * 100).toFixed(0) + "%";
+}
+
+export function datify(date) {
+  return dateFormatter.format(date);
+}
+
+export function showify(string) {
+  return "show" + string.charAt(0).toUpperCase() + string.slice(1);
+}

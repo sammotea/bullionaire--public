@@ -1,70 +1,54 @@
-import React 				from 'react'
-import f 					from '../_helpers/formatter';
+import React from "react";
+import * as f from "../_helpers/formatter";
 
-import TransactionListItem 	from '../_components/TransactionListItem';
+import TransactionListItem from "../_components/TransactionListItem";
 
-class TransactionListYearGroup extends React.Component {
+function TransactionListYearGroup(props) {
+  function getTransactionListItems() {
+    const { transactions, showAssets, showActions } = props;
+    const transactionListItems = [];
 
-	getTransactionListItems() {
-		
-		const { transactions, showAssets, showActions } 	= 	this.props;
-		const transactionListItems	=	[];
+    if (Array.isArray(transactions)) {
+      transactions.forEach((t) => {
+        if (
+          (showAssets !== "all" && showAssets !== t.asset) ||
+          (showActions !== "all" && showActions !== t.action)
+        ) {
+          return;
+        }
 
-		if( Array.isArray( transactions ) ) {
-			
-			transactions.forEach( t => {
-					
-				if(
-					( showAssets !== 'all' && showAssets !== t.asset ) ||
-					( showActions !== 'all' && showActions !== t.action )
-				) { return; }
-				
-				let { date, ...props }  = t;	
-				let id;
-				
-				date 	= 	f.datify( date );
-				id 		=	t.asset + t.action + date;
-				
-				transactionListItems.push(
-					<TransactionListItem
-						key={ id }
-						date={ date }
-						{ ...props }
-					/>
-				);
-				
-			});
-		}
-		
-		return transactionListItems;
+        let { date, ...props } = t;
+        let id;
 
-	}
+        date = f.datify(date);
+        id = t.asset + t.action + date;
 
-	render() {
-		
-		const transactionItems	=	this.getTransactionListItems();
-		
-		if( transactionItems.length <= 0 ) {
-			
-			return false;
-			
-		} else {
-		
-			return(
-			
-				<li className="[ c-transactions__yearGroup ]">
-					
-					<h1 className="[ c-transactions__yearGroupTitle ]">{ this.props.year }</h1>
-					
-					<ul className="[ c-transactions__list c-transactions__list--transactions ]">{ transactionItems }</ul>
-						
-				</li>
-			
-			)
-			
-		}
-	}
+        transactionListItems.push(
+          <TransactionListItem key={id} date={date} {...props} />
+        );
+      });
+    }
 
+    return transactionListItems;
+  }
+
+  const transactionItems = getTransactionListItems();
+
+  if (transactionItems.length <= 0) {
+    return false;
+  } else {
+    return (
+      <li className="[ c-transactions__yearGroup ]">
+        <h1 className="[ c-transactions__yearGroupTitle ]">
+          {props.year}
+        </h1>
+
+        <ul className="[ c-transactions__list c-transactions__list--transactions ]">
+          {transactionItems}
+        </ul>
+      </li>
+    );
+  }
 }
 
 export default TransactionListYearGroup;
