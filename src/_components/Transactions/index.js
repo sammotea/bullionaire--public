@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import parser from "../_helpers/parsers/transactionParser";
-import * as f from "../_helpers/formatter";
+import parser from "../../_helpers/parsers/transactionParser";
+import * as f from "../../_helpers/formatter";
 
-import TransactionNavigation from "../_components/TransactionNavigation";
-import TransactionSummary from "../_components/TransactionSummary";
-import TransactionList from "../_components/TransactionList";
+import Navigation from "./Navigation";
+import Summary from "./Summary";
+import List from "./List/";
 
 function Transactions(props) {
   const [filters, setFilters] = useState({
@@ -27,10 +27,10 @@ function Transactions(props) {
     setFilters(updatedFilters);
   }
 
-  function renderTransactionNavigation() {
+  function renderNavigation() {
     if (assets && periods) {
       return (
-        <TransactionNavigation
+        <Navigation
           selectionHandler={handleUserSelection}
           {...{ assets, periods }}
           {...filters}
@@ -39,10 +39,10 @@ function Transactions(props) {
     }
   }
 
-  function renderTransactionSummary() {
+  function renderSummary() {
     if (transactionsByYear && transactionsByAsset) {
       return (
-        <TransactionSummary
+        <Summary
           {...{ transactionsByYear, transactionsByAsset }}
           {...filters}
         />
@@ -50,20 +50,18 @@ function Transactions(props) {
     }
   }
 
-  function renderTransactionList() {
+  function renderList() {
     if (transactionsByYear) {
-      return (
-        <TransactionList {...{ transactionsByYear }} {...filters} />
-      );
+      return <List {...{ transactionsByYear }} {...filters} />;
     }
   }
   return (
     <>
       <h1>Transactions</h1>
 
-      {renderTransactionNavigation()}
-      {renderTransactionSummary()}
-      {renderTransactionList()}
+      {renderNavigation()}
+      {renderSummary()}
+      {renderList()}
     </>
   );
 }

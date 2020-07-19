@@ -1,0 +1,6 @@
+{
+    "search.exclude": {
+        "_archive/": true,
+        "_thinkypoos/": true
+    }
+}

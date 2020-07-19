@@ -1,8 +1,8 @@
 import React from "react";
 
-import TransactionListYearGroup from "../_components/TransactionListYearGroup";
+import Yeargroup from "./Yeargroup";
 
-function TransactionList(props) {
+function List(props) {
   function getYearGroups() {
     const {
       transactionsByYear,
@@ -17,7 +17,7 @@ function TransactionList(props) {
 
       // latest first
       yearGroups.unshift(
-        <TransactionListYearGroup
+        <Yeargroup
           key={year}
           year={year}
           transactions={transactionsByYear[year]["raw"]}
@@ -44,4 +44,4 @@ function TransactionList(props) {
   return renderYearGroups();
 }
 
-export default TransactionList;
+export default List;

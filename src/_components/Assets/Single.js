@@ -1,7 +1,7 @@
 import React from "react";
-import * as f from "../_helpers/formatter";
+import * as f from "../../_helpers/formatter";
 
-function AssetSnapshotSingle(props) {
+function Single(props) {
   const {
     assetName,
     quantity,
@@ -37,4 +37,4 @@ function AssetSnapshotSingle(props) {
   );
 }
 
-export default AssetSnapshotSingle;
+export default Single;

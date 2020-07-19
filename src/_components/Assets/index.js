@@ -1,7 +1,7 @@
 import React from "react";
-import AssetSnapshotSingle from "../_components/AssetSnapshotSingle";
+import Single from "./Single";
 
-function AssetSnapshotAll(props) {
+function Assets(props) {
   function renderSnapshots() {
     return <>{getSnapshots()}</>;
   }
@@ -15,7 +15,7 @@ function AssetSnapshotAll(props) {
       const { value, cost, quantity } = aumByAsset[asset];
 
       snapshots.push(
-        <AssetSnapshotSingle
+        <Single
           key={asset}
           assetName={asset}
           proportionalValue={value / totalValue}
@@ -31,4 +31,4 @@ function AssetSnapshotAll(props) {
   return renderSnapshots();
 }
 
-export default AssetSnapshotAll;
+export default Assets;

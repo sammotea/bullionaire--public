@@ -6,8 +6,8 @@ import parser from "./_helpers/parsers/transactionParser";
 import * as spotPriceParser from "./_helpers/parsers/spotPriceParser";
 
 import Summary from "./_components/Summary";
-import AssetSnapshotAll from "./_components/AssetSnapshotAll";
-import Transactions from "./_components/Transactions";
+import Assets from "./_components/Assets";
+import Transactions from "./_components/Transactions/";
 
 function Bullionaire() {
   const useManualPrices = true;
@@ -68,11 +68,11 @@ function Bullionaire() {
     }
   }
 
-  function renderAssetSnapshots() {
+  function renderAssets() {
     if (aum && spotPrices) {
       return (
         <section className={getSectionClassNames("assets")}>
-          <AssetSnapshotAll {...{ aum, spotPrices }} />
+          <Assets {...{ aum, spotPrices }} />
         </section>
       );
     }
@@ -89,7 +89,7 @@ function Bullionaire() {
   return (
     <>
       {renderSummary()}
-      {renderAssetSnapshots()}
+      {renderAssets()}
       {renderTransactions()}
     </>
   );

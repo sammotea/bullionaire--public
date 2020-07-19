@@ -1,7 +1,7 @@
 import React from "react";
-import * as f from "../_helpers/formatter";
+import * as f from "../../../_helpers/formatter";
 
-function TransactionListItem(props) {
+function Item(props) {
   const { asset, cost, date, quantity, action } = props;
 
   return (
@@ -21,4 +21,4 @@ function TransactionListItem(props) {
   );
 }
 
-export default TransactionListItem;
+export default Item;

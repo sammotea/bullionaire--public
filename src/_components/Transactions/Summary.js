@@ -1,7 +1,7 @@
 import React from "react";
-import * as f from "../_helpers/formatter";
+import * as f from "../../_helpers/formatter";
 
-function TransactionSummary(props) {
+function Summary(props) {
   function getTransactionsArray(transactionsObj) {
     /***
      ****	transactionsByYear and transactionsByAsset
@@ -86,4 +86,4 @@ function TransactionSummary(props) {
   );
 }
 
-export default TransactionSummary;
+export default Summary;

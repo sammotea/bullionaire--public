@@ -1,7 +1,7 @@
 import React from "react";
-import * as f from "../_helpers/formatter";
+import * as f from "../../_helpers/formatter";
 
-function TransactionNavigation(props) {
+function Navigation(props) {
   function renderNavigation() {
     const { assets, periods } = props;
     const variables = {
@@ -114,4 +114,4 @@ function TransactionNavigation(props) {
   return renderNavigation();
 }
 
-export default TransactionNavigation;
+export default Navigation;

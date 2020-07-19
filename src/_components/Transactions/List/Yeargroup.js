@@ -1,12 +1,12 @@
 import React from "react";
-import * as f from "../_helpers/formatter";
+import * as f from "../../../_helpers/formatter";
 
-import TransactionListItem from "../_components/TransactionListItem";
+import Item from "./Item";
 
-function TransactionListYearGroup(props) {
-  function getTransactionListItems() {
+function Yeargroup(props) {
+  function getItems() {
     const { transactions, showAssets, showActions } = props;
-    const transactionListItems = [];
+    const Items = [];
 
     if (Array.isArray(transactions)) {
       transactions.forEach((t) => {
@@ -23,17 +23,15 @@ function TransactionListYearGroup(props) {
         date = f.datify(date);
         id = t.asset + t.action + date;
 
-        transactionListItems.push(
-          <TransactionListItem key={id} date={date} {...props} />
-        );
+        Items.push(<Item key={id} date={date} {...props} />);
       });
     }
 
-    return transactionListItems;
+    return Items;
   }
 
-  function renderTransactionListItems() {
-    const transactionItems = getTransactionListItems();
+  function renderItems() {
+    const transactionItems = getItems();
 
     if (transactionItems.length > 0) {
       return (
@@ -50,7 +48,7 @@ function TransactionListYearGroup(props) {
     }
   }
 
-  return renderTransactionListItems();
+  return renderItems();
 }
 
-export default TransactionListYearGroup;
+export default Yeargroup;
