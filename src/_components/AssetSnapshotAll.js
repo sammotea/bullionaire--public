@@ -2,10 +2,14 @@ import React from "react";
 import AssetSnapshotSingle from "../_components/AssetSnapshotSingle";
 
 function AssetSnapshotAll(props) {
-  function getSnapshots(aumObject) {
+  function renderSnapshots() {
+    return <>{getSnapshots()}</>;
+  }
+
+  function getSnapshots() {
     const snapshots = [];
-    const aumByAsset = aumObject.byAsset;
-    const totalValue = aumObject.total.value;
+    const aumByAsset = props.aum.byAsset;
+    const totalValue = props.aum.total.value;
 
     for (const asset in aumByAsset) {
       const { value, cost, quantity } = aumByAsset[asset];
@@ -14,11 +18,9 @@ function AssetSnapshotAll(props) {
         <AssetSnapshotSingle
           key={asset}
           assetName={asset}
-          quantity={quantity}
-          value={value}
-          cost={cost}
           proportionalValue={value / totalValue}
           spotPrice={props.spotPrices[asset]}
+          {...{ quantity, value, cost }}
         />
       );
     }
@@ -26,13 +28,7 @@ function AssetSnapshotAll(props) {
     return snapshots;
   }
 
-  let snapshots;
-
-  if (props.aum) {
-    snapshots = getSnapshots(props.aum);
-  }
-
-  return <>{snapshots}</>;
+  return renderSnapshots();
 }
 
 export default AssetSnapshotAll;

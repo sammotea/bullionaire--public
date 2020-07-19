@@ -4,7 +4,12 @@ import TransactionListYearGroup from "../_components/TransactionListYearGroup";
 
 function TransactionList(props) {
   function getYearGroups() {
-    const { transactionsByYear, showPeriods, showAssets, showActions } = props;
+    const {
+      transactionsByYear,
+      showPeriods,
+      showAssets,
+      showActions,
+    } = props;
     const yearGroups = [];
 
     for (const year in transactionsByYear) {
@@ -25,13 +30,18 @@ function TransactionList(props) {
     return yearGroups;
   }
 
-  const yearGroups = getYearGroups();
+  function renderYearGroups() {
+    const yearGroups = getYearGroups();
 
-  return (
-    <ul className="[ c-transactions__list c-transactions__list--yearGroups ]">
-      {yearGroups}
-    </ul>
-  );
+    if (yearGroups) {
+      return (
+        <ul className="[ c-transactions__list c-transactions__list--yearGroups ]">
+          {yearGroups}
+        </ul>
+      );
+    }
+  }
+  return renderYearGroups();
 }
 
 export default TransactionList;

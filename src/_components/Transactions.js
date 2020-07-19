@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import parser from "../_helpers/parsers/transactionParser";
 import * as f from "../_helpers/formatter";
 
 import TransactionNavigation from "../_components/TransactionNavigation";
@@ -12,7 +13,10 @@ function Transactions(props) {
     showPeriods: "all",
   });
 
-  const transactionParser = props.transactionParser;
+  const assets = parser.getAssetTypes(),
+    periods = parser.getTransactionPeriods(),
+    transactionsByYear = parser.getTransactionsByYear(),
+    transactionsByAsset = parser.getTransactionsByAsset();
 
   function handleUserSelection(e) {
     let tempObj = {};
@@ -23,27 +27,43 @@ function Transactions(props) {
     setFilters(updatedFilters);
   }
 
+  function renderTransactionNavigation() {
+    if (assets && periods) {
+      return (
+        <TransactionNavigation
+          selectionHandler={handleUserSelection}
+          {...{ assets, periods }}
+          {...filters}
+        />
+      );
+    }
+  }
+
+  function renderTransactionSummary() {
+    if (transactionsByYear && transactionsByAsset) {
+      return (
+        <TransactionSummary
+          {...{ transactionsByYear, transactionsByAsset }}
+          {...filters}
+        />
+      );
+    }
+  }
+
+  function renderTransactionList() {
+    if (transactionsByYear) {
+      return (
+        <TransactionList {...{ transactionsByYear }} {...filters} />
+      );
+    }
+  }
   return (
     <>
       <h1>Transactions</h1>
 
-      <TransactionNavigation
-        assets={transactionParser.getAssetTypes()}
-        periods={transactionParser.getTransactionPeriods()}
-        selectionHandler={handleUserSelection}
-        {...filters}
-      />
-
-      <TransactionSummary
-        transactionsByYear={transactionParser.getTransactionsByYear()}
-        transactionsByAsset={transactionParser.getTransactionsByAsset()}
-        {...filters}
-      />
-
-      <TransactionList
-        transactionsByYear={transactionParser.getTransactionsByYear()}
-        {...filters}
-      />
+      {renderTransactionNavigation()}
+      {renderTransactionSummary()}
+      {renderTransactionList()}
     </>
   );
 }

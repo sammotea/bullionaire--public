@@ -48,25 +48,49 @@ function Bullionaire() {
     }
   }, []);
 
+  const totalValue = parser.getValueOfAssetsUnderManagement(),
+    totalCost = parser.getCostOfAssetsUnderManagement(),
+    aum = parser.getAssetsUnderManagement();
+
+  function getSectionClassNames(section = "") {
+    if (section) section = "c-" + section;
+
+    return "[ l-module | " + section + " ]";
+  }
+
+  function renderSummary() {
+    if (totalValue && totalCost) {
+      return (
+        <section className={getSectionClassNames("summary")}>
+          <Summary {...{ totalValue, totalCost }} />
+        </section>
+      );
+    }
+  }
+
+  function renderAssetSnapshots() {
+    if (aum && spotPrices) {
+      return (
+        <section className={getSectionClassNames("assets")}>
+          <AssetSnapshotAll {...{ aum, spotPrices }} />
+        </section>
+      );
+    }
+  }
+
+  function renderTransactions() {
+    return (
+      <section className={getSectionClassNames("transactions")}>
+        <Transactions />
+      </section>
+    );
+  }
+
   return (
     <>
-      <section className="[ l-module | c-summary ]">
-        <Summary
-          totalValue={parser.getValueOfAssetsUnderManagement()}
-          totalCost={parser.getCostOfAssetsUnderManagement()}
-        />
-      </section>
-
-      <section className="[ l-module | c-assets ]">
-        <AssetSnapshotAll
-          aum={parser.getAssetsUnderManagement()}
-          spotPrices={spotPrices}
-        />
-      </section>
-
-      <section className="[ l-module | c-transactions ]">
-        <Transactions transactionParser={parser} />
-      </section>
+      {renderSummary()}
+      {renderAssetSnapshots()}
+      {renderTransactions()}
     </>
   );
 }

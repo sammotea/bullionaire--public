@@ -32,23 +32,25 @@ function TransactionListYearGroup(props) {
     return transactionListItems;
   }
 
-  const transactionItems = getTransactionListItems();
+  function renderTransactionListItems() {
+    const transactionItems = getTransactionListItems();
 
-  if (transactionItems.length <= 0) {
-    return false;
-  } else {
-    return (
-      <li className="[ c-transactions__yearGroup ]">
-        <h1 className="[ c-transactions__yearGroupTitle ]">
-          {props.year}
-        </h1>
+    if (transactionItems.length > 0) {
+      return (
+        <li className="[ c-transactions__yearGroup ]">
+          <h1 className="[ c-transactions__yearGroupTitle ]">
+            {props.year}
+          </h1>
 
-        <ul className="[ c-transactions__list c-transactions__list--transactions ]">
-          {transactionItems}
-        </ul>
-      </li>
-    );
+          <ul className="[ c-transactions__list c-transactions__list--transactions ]">
+            {transactionItems}
+          </ul>
+        </li>
+      );
+    }
   }
+
+  return renderTransactionListItems();
 }
 
 export default TransactionListYearGroup;

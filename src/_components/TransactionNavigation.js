@@ -2,6 +2,24 @@ import React from "react";
 import * as f from "../_helpers/formatter";
 
 function TransactionNavigation(props) {
+  function renderNavigation() {
+    const { assets, periods } = props;
+    const variables = {
+      actions: ["buy", "sell"],
+      assets: assets,
+      periods: periods,
+    };
+
+    const userSelections = getSelects(variables);
+
+    if (userSelections) {
+      return (
+        <div className="[ c-transactions__filters ]">
+          {userSelections}
+        </div>
+      );
+    }
+  }
   function setOptionValue(option, selectID) {
     return option;
   }
@@ -93,20 +111,7 @@ function TransactionNavigation(props) {
     return selectsGroup;
   }
 
-  const { assets, periods } = props;
-  const variables = {
-    actions: ["buy", "sell"],
-    assets: assets,
-    periods: periods,
-  };
-
-  const userSelections = getSelects(variables);
-
-  return (
-    <div className="[ c-transactions__filters ]">
-      {userSelections}
-    </div>
-  );
+  return renderNavigation();
 }
 
 export default TransactionNavigation;
