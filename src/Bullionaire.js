@@ -10,7 +10,7 @@ import Assets from "./_components/Assets";
 import Transactions from "./_components/Transactions/";
 
 function Bullionaire() {
-  const useManualPrices = true;
+  const useManualPrices = false;
   const manualSpotPrices = {
     // as of 03/01/2020
     gold: 40095.88,
@@ -25,26 +25,29 @@ function Bullionaire() {
 
   const transactions = pretendToParseExcelForTransactions();
 
-  const [hasPrices, setHasPrices] = useState(false);
   const [spotPrices, setSpotPrices] = useState(manualSpotPrices);
 
   parser.init(transactions);
   parser.setAssetsUnderManagement(spotPrices);
+
+  async function fetchSpotPrices(url) {
+    let response = await fetch(url);
+
+    return response.json();
+  }
 
   useEffect(() => {
     // Only get 10 API calls a month, the snide bastards
 
     if (!useManualPrices) {
       // Pending: No fail state
-      fetch(bullionApi)
-        .then((res) => res.json())
-        .then((result) => {
-          const currentSpotPrices = spotPriceParser.transformSpotPriceObject(
-            result
-          );
+      fetchSpotPrices(bullionApi).then((result) => {
+        const currentSpotPrices = spotPriceParser.transformSpotPriceObject(
+          result
+        );
 
-          setSpotPrices(currentSpotPrices);
-        });
+        setSpotPrices(currentSpotPrices);
+      });
     }
   }, []);
 
