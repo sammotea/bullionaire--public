@@ -7,10 +7,10 @@ import * as spotPriceParser from "./_helpers/parsers/spotPriceParser";
 
 import Summary from "./_components/Summary";
 import Assets from "./_components/Assets";
-import Transactions from "./_components/Transactions/";
+import Transactions from "./_components/Transactions";
 
 function Bullionaire() {
-  const useManualPrices = false;
+  const useManualPrices = true;
   const manualSpotPrices = {
     // as of 03/01/2020
     gold: 40095.88,
@@ -49,7 +49,7 @@ function Bullionaire() {
         setSpotPrices(currentSpotPrices);
       });
     }
-  }, []);
+  }, [useManualPrices]);
 
   const totalValue = parser.getValueOfAssetsUnderManagement(),
     totalCost = parser.getCostOfAssetsUnderManagement(),
