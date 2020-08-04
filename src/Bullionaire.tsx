@@ -9,9 +9,24 @@ import Summary from "./_components/Summary";
 import Assets from "./_components/Assets";
 import Transactions from "./_components/Transactions";
 
-function Bullionaire() {
+type BullionTypes = "gold" | "silver";
+type SpotPrices = {
+  [K in BullionTypes]: number;
+};
+
+type Transaction = {
+  date: string;
+  asset: string;
+  // PENDING set assets as BullionTypes
+  action: string;
+  // PENDING set action as 'buy' | 'sell'
+  amount: number;
+  cost: number;
+};
+
+const Bullionaire: React.FC = () => {
   const useManualPrices = true;
-  const manualSpotPrices = {
+  const manualSpotPrices: SpotPrices = {
     // as of 03/01/2020
     gold: 40095.88,
     silver: 423.58,
@@ -19,22 +34,24 @@ function Bullionaire() {
   const bullionApi =
     "https://www.metals-api.com/api/latest?access_key=putumntqnjat4yrmbi7h3250wqviwmrgx8a83uwiznpg5y2jkl3yhsw91j22&base=GBP&symbols=XAU,XAG";
 
-  function pretendToParseExcelForTransactions() {
+  const pretendToParseExcelForTransactions = function (): Transaction[] {
     return rawTransactions.transactions;
-  }
+  };
 
   const transactions = pretendToParseExcelForTransactions();
 
-  const [spotPrices, setSpotPrices] = useState(manualSpotPrices);
+  const [spotPrices, setSpotPrices] = useState<SpotPrices>(
+    manualSpotPrices
+  );
 
   parser.init(transactions);
   parser.setAssetsUnderManagement(spotPrices);
 
-  async function fetchSpotPrices(url) {
+  const fetchSpotPrices = async (url: string) => {
     let response = await fetch(url);
 
     return response.json();
-  }
+  };
 
   useEffect(() => {
     // Only get 10 API calls a month, the snide bastards
@@ -46,7 +63,9 @@ function Bullionaire() {
           result
         );
 
-        setSpotPrices(currentSpotPrices);
+        if (currentSpotPrices) {
+          setSpotPrices(currentSpotPrices);
+        }
       });
     }
   }, [useManualPrices]);
@@ -96,6 +115,6 @@ function Bullionaire() {
       {renderTransactions()}
     </>
   );
-}
+};
 
 export default Bullionaire;

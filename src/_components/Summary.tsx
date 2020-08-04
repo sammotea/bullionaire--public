@@ -1,11 +1,15 @@
 import React from "react";
 import * as f from "../_helpers/formatter";
 
-function Summary(props) {
-  const { totalValue, totalCost } = props;
+interface ISummaryProps {
+  totalValue: number;
+  totalCost: number;
+}
 
-  if (!totalValue || !totalCost) return false;
-
+const Summary: React.FC<ISummaryProps> = ({
+  totalValue,
+  totalCost,
+}) => {
   const balance = totalValue - totalCost;
   const percDiff = f.percentify(balance / totalCost);
 
@@ -20,6 +24,6 @@ function Summary(props) {
       </h2>
     </>
   );
-}
+};
 
 export default Summary;
