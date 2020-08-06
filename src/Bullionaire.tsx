@@ -9,21 +9,6 @@ import Summary from "./_components/Summary";
 import Assets from "./_components/Assets";
 import Transactions from "./_components/Transactions";
 
-type BullionTypes = "gold" | "silver";
-type SpotPrices = {
-  [K in BullionTypes]: number;
-};
-
-type Transaction = {
-  date: string;
-  asset: string;
-  // PENDING set assets as BullionTypes
-  action: string;
-  // PENDING set action as 'buy' | 'sell'
-  amount: number;
-  cost: number;
-};
-
 const Bullionaire: React.FC = () => {
   const useManualPrices = true;
   const manualSpotPrices: SpotPrices = {
@@ -34,7 +19,7 @@ const Bullionaire: React.FC = () => {
   const bullionApi =
     "https://www.metals-api.com/api/latest?access_key=putumntqnjat4yrmbi7h3250wqviwmrgx8a83uwiznpg5y2jkl3yhsw91j22&base=GBP&symbols=XAU,XAG";
 
-  const pretendToParseExcelForTransactions = function (): Transaction[] {
+  const pretendToParseExcelForTransactions = function (): RawTransaction[] {
     return rawTransactions.transactions;
   };
 

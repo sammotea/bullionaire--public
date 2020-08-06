@@ -1,11 +1,6 @@
 import React from "react";
 import * as f from "../_helpers/formatter";
 
-interface ISummaryProps {
-  totalValue: number;
-  totalCost: number;
-}
-
 const Summary: React.FC<ISummaryProps> = ({
   totalValue,
   totalCost,
