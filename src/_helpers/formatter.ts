@@ -5,22 +5,22 @@ const currencyFormatter = new Intl.NumberFormat("en-UK", {
 
 const dateFormatter = new Intl.DateTimeFormat("en-US");
 
-export function poundify(amount) {
+export const poundify = (amount: number): string => {
   return currencyFormatter.format(amount);
-}
+};
 
-export function kiloify(number) {
+export const kiloify = (number: number): string => {
   return number.toFixed(2) + "kg";
-}
+};
 
-export function percentify(number) {
+export const percentify = (number: number): string => {
   return (number * 100).toFixed(0) + "%";
-}
+};
 
-export function datify(date) {
+export const datify = (date: Date): string => {
   return dateFormatter.format(date);
-}
+};
 
-export function showify(string) {
+export const showify = (string: string): string => {
   return "show" + string.charAt(0).toUpperCase() + string.slice(1);
-}
+};
