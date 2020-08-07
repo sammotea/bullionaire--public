@@ -3,10 +3,15 @@ import * as f from "../../../_helpers/formatter";
 
 import Item from "./Item";
 
-function Yeargroup(props) {
+const Yeargroup: React.FC<ITransactionYearGroupProps> = ({
+  key,
+  year,
+  transactions,
+  showAssets,
+  showActions,
+}) => {
   function getItems() {
-    const { transactions, showAssets, showActions } = props;
-    const Items = [];
+    const Items = [] as JSX.Element[];
 
     if (Array.isArray(transactions)) {
       transactions.forEach((t) => {
@@ -18,26 +23,25 @@ function Yeargroup(props) {
         }
 
         let { date, ...props } = t;
-        let id;
 
-        date = f.datify(date);
-        id = t.asset + t.action + date;
+        let dateAsString = f.datify(date);
+        let id = t.asset + t.action + date;
 
-        Items.push(<Item key={id} date={date} {...props} />);
+        Items.push(<Item key={id} date={dateAsString} {...props} />);
       });
     }
 
     return Items;
   }
 
-  function renderItems() {
+  function renderItems(): JSX.Element {
     const transactionItems = getItems();
 
     if (transactionItems.length > 0) {
       return (
         <li className="[ c-transactions__yearGroup ]">
           <h1 className="[ c-transactions__yearGroupTitle ]">
-            {props.year}
+            {year}
           </h1>
 
           <ul className="[ c-transactions__list c-transactions__list--transactions ]">
@@ -45,10 +49,12 @@ function Yeargroup(props) {
           </ul>
         </li>
       );
+    } else {
+      return <></>;
     }
   }
 
   return renderItems();
-}
+};
 
 export default Yeargroup;

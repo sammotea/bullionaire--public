@@ -1,9 +1,13 @@
 import React from "react";
 import * as f from "../../../_helpers/formatter";
 
-function Item(props) {
-  const { asset, cost, date, quantity, action } = props;
-
+const Item: React.FC<ITransactionItemProps> = ({
+  asset,
+  cost,
+  date,
+  quantity,
+  action,
+}) => {
   return (
     <li className="[ c-transaction ]">
       <h1>
@@ -19,6 +23,6 @@ function Item(props) {
       </small>
     </li>
   );
-}
+};
 
 export default Item;

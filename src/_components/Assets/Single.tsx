@@ -1,15 +1,14 @@
 import React from "react";
 import * as f from "../../_helpers/formatter";
 
-function Single(props) {
-  const {
-    assetName,
-    quantity,
-    value,
-    cost,
-    proportionalValue,
-    spotPrice,
-  } = props;
+const Single: React.FC<ISingleAssetProps> = ({
+  assetName,
+  quantity,
+  value,
+  cost,
+  proportionalValue,
+  spotPrice,
+}) => {
   const balance = value - cost;
 
   return (
@@ -35,6 +34,6 @@ function Single(props) {
       </ul>
     </div>
   );
-}
+};
 
 export default Single;

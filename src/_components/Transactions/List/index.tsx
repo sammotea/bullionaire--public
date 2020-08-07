@@ -2,15 +2,14 @@ import React from "react";
 
 import Yeargroup from "./Yeargroup";
 
-function List(props) {
-  function getYearGroups() {
-    const {
-      transactionsByYear,
-      showPeriods,
-      showAssets,
-      showActions,
-    } = props;
-    const yearGroups = [];
+const List: React.FC<ITransactionListProps> = ({
+  transactionsByYear,
+  showPeriods,
+  showAssets,
+  showActions,
+}) => {
+  function getYearGroups(): JSX.Element[] {
+    const yearGroups = [] as JSX.Element[];
 
     for (const year in transactionsByYear) {
       if (showPeriods !== "all" && showPeriods !== year) continue;
@@ -30,7 +29,7 @@ function List(props) {
     return yearGroups;
   }
 
-  function renderYearGroups() {
+  function renderYearGroups(): JSX.Element {
     const yearGroups = getYearGroups();
 
     if (yearGroups) {
@@ -39,9 +38,11 @@ function List(props) {
           {yearGroups}
         </ul>
       );
+    } else {
+      return <></>;
     }
   }
   return renderYearGroups();
-}
+};
 
 export default List;

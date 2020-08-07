@@ -117,3 +117,63 @@ interface ISummaryProps {
   totalValue: number;
   totalCost: number;
 }
+
+interface IAssetsProps {
+  aum: Aum;
+  spotPrices: spotPrices;
+}
+
+interface ISingleAssetProps {
+  assetName: BullionTypes;
+  quantity: number;
+  value: number;
+  cost: number;
+  proportionalValue: number;
+  spotPrice: number;
+}
+
+type TransactionFilters = {
+  [prop: string]: string;
+};
+
+interface ITransactionNavigationProps {
+  selectionHandler(e: React.ChangeEvent<HTMLSelectElement>): void;
+  assets: BullionTypes[];
+  periods: string[];
+  showActions: string;
+  showPeriods: string;
+  showAssets: string;
+}
+
+type TransactionNavigationSelects = {
+  actions: string[];
+  assets: BullionTypes[];
+  periods: string[];
+};
+
+interface ITransactionSummaryProps {
+  transactionsByYear: TransactionsByYear;
+  transactionsByAsset: TransactionsByAsset;
+  showActions: string;
+  showPeriods: string;
+  showAssets: string;
+}
+
+interface ITransactionListProps {
+  transactionsByYear: TransactionsByYear;
+  showActions: string;
+  showPeriods: string;
+  showAssets: string;
+}
+
+interface ITransactionYearGroupProps {
+  key: string;
+  year: string;
+  transactions: Transaction[];
+  showAssets: string;
+  showActions: string;
+}
+
+interface ITransactionItemProps extends Omit<Transaction, "date"> {
+  date: string;
+}

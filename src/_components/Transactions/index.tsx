@@ -4,22 +4,24 @@ import * as f from "../../_helpers/formatter";
 
 import Navigation from "./Navigation";
 import Summary from "./Summary";
-import List from "./List/";
+import List from "./List";
 
-function Transactions(props) {
+const Transactions: React.FC = () => {
   const [filters, setFilters] = useState({
     showAssets: "all",
     showActions: "all",
     showPeriods: "all",
-  });
+  } as TransactionFilters);
 
   const assets = parser.getAssetTypes(),
     periods = parser.getTransactionPeriods(),
-    transactionsByYear = parser.getTransactionsByYear(),
-    transactionsByAsset = parser.getTransactionsByAsset();
+    transactionsByYear = parser.getTransactionsByYear() as TransactionsByYear,
+    transactionsByAsset = parser.getTransactionsByAsset() as TransactionsByAsset;
 
-  function handleUserSelection(e) {
-    let tempObj = {};
+  function handleUserSelection(
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) {
+    let tempObj = {} as TransactionFilters;
     tempObj[f.showify(e.target.id)] = e.target.value;
 
     const updatedFilters = Object.assign({}, filters, tempObj);
@@ -32,8 +34,11 @@ function Transactions(props) {
       return (
         <Navigation
           selectionHandler={handleUserSelection}
-          {...{ assets, periods }}
-          {...filters}
+          assets={assets}
+          periods={periods}
+          showActions={filters["showActions"]}
+          showPeriods={filters["showActions"]}
+          showAssets={filters["showActions"]}
         />
       );
     }
@@ -43,8 +48,11 @@ function Transactions(props) {
     if (transactionsByYear && transactionsByAsset) {
       return (
         <Summary
-          {...{ transactionsByYear, transactionsByAsset }}
-          {...filters}
+          transactionsByYear={transactionsByYear}
+          transactionsByAsset={transactionsByAsset}
+          showActions={filters["showActions"]}
+          showPeriods={filters["showActions"]}
+          showAssets={filters["showActions"]}
         />
       );
     }
@@ -52,7 +60,14 @@ function Transactions(props) {
 
   function renderList() {
     if (transactionsByYear) {
-      return <List {...{ transactionsByYear }} {...filters} />;
+      return (
+        <List
+          transactionsByYear={transactionsByYear}
+          showActions={filters["showActions"]}
+          showPeriods={filters["showActions"]}
+          showAssets={filters["showActions"]}
+        />
+      );
     }
   }
   return (
@@ -64,6 +79,6 @@ function Transactions(props) {
       {renderList()}
     </>
   );
-}
+};
 
 export default Transactions;

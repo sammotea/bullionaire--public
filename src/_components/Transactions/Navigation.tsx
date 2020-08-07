@@ -1,30 +1,36 @@
 import React from "react";
 import * as f from "../../_helpers/formatter";
 
-function Navigation(props) {
+const Navigation: React.FC<ITransactionNavigationProps> = (props) => {
   function renderNavigation() {
     const { assets, periods } = props;
     const variables = {
       actions: ["buy", "sell"],
       assets: assets,
       periods: periods,
-    };
+    } as TransactionNavigationSelects;
 
     const userSelections = getSelects(variables);
 
     if (userSelections) {
       return (
-        <div className="[ c-transactions__filters ]">
-          {userSelections}
-        </div>
+        <>
+          (
+          <div className="[ c-transactions__filters ]">
+            {userSelections}
+          </div>
+          )
+        </>
       );
+    } else {
+      return <></>;
     }
   }
-  function setOptionValue(option, selectID) {
+  function setOptionValue(option: string): string {
     return option;
   }
 
-  function setOptionName(option, selectID) {
+  function setOptionName(option: string, selectID?: string): string {
     switch (option) {
       case "buy":
         option = "purchases";
@@ -45,12 +51,15 @@ function Navigation(props) {
     return option;
   }
 
-  function getSelectOptions(optionsArray, selectID) {
-    const options = [];
+  function getSelectOptions(
+    optionsArray: string[],
+    selectID: keyof TransactionNavigationSelects
+  ) {
+    const options = [] as JSX.Element[];
     const optionsLoop = optionsArray.concat(["all"]); // Add a default selection
 
     optionsLoop.forEach((option) => {
-      const optionValue = setOptionValue(option, selectID);
+      const optionValue = setOptionValue(option);
       const optionName = setOptionName(option, selectID);
 
       options.push(
@@ -63,7 +72,9 @@ function Navigation(props) {
     return options;
   }
 
-  function maybeAddConjunction(selectID) {
+  function maybeAddConjunction(
+    selectID: keyof TransactionNavigationSelects
+  ) {
     let conj;
 
     switch (selectID) {
@@ -82,15 +93,23 @@ function Navigation(props) {
     return conj;
   }
 
-  function getSelects(selectsObject) {
-    const selectsGroup = [];
+  function getSelects(
+    selectsObject: TransactionNavigationSelects
+  ): JSX.Element {
+    const selectsGroup = [] as JSX.Element[];
 
-    for (const selectID in selectsObject) {
+    let selectID: keyof TransactionNavigationSelects;
+    for (selectID in selectsObject) {
       const selectOptions = getSelectOptions(
         selectsObject[selectID],
         selectID
       );
-      const selected = props[f.showify(selectID)];
+
+      const selection = f.showify(selectID) as
+        | "showActions"
+        | "showPeriods"
+        | "showAssets";
+      const selected = props[selection];
       const conj = maybeAddConjunction(selectID);
 
       selectsGroup.push(
@@ -108,10 +127,10 @@ function Navigation(props) {
       );
     }
 
-    return selectsGroup;
+    return <>{selectsGroup}</>;
   }
 
   return renderNavigation();
-}
+};
 
 export default Navigation;

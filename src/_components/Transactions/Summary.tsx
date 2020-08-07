@@ -1,8 +1,10 @@
 import React from "react";
 import * as f from "../../_helpers/formatter";
 
-function Summary(props) {
-  function getTransactionsArray(transactionsObj) {
+const Summary: React.FC<ITransactionSummaryProps> = (props) => {
+  function getTransactionsArray(
+    transactionsObj: Transaction[] | { raw: Transaction[] }
+  ): Transaction[] {
     /***
      ****	transactionsByYear and transactionsByAsset
      ****	have a nested structure that groups transactions
@@ -10,17 +12,20 @@ function Summary(props) {
      ****	and as an unordered list ( raw = [] )
      ***/
 
-    if (!transactionsObj) return false;
-
     return Array.isArray(transactionsObj)
       ? transactionsObj
       : transactionsObj["raw"];
   }
 
-  function mergeTransactionsByAsset(transactions) {
-    let mergedAssets = [];
+  function mergeTransactionsByAsset(
+    transactions:
+      | TransactionsByAsset
+      | { [K in BullionTypes]: Transaction[] }
+  ) {
+    let mergedAssets = [] as Transaction[];
 
-    for (const asset in transactions) {
+    let asset: BullionTypes;
+    for (asset in transactions) {
       mergedAssets = mergedAssets.concat(
         getTransactionsArray(transactions[asset])
       );
@@ -35,13 +40,14 @@ function Summary(props) {
       showPeriods === "all"
         ? props.transactionsByAsset
         : props.transactionsByYear[showPeriods]["byAsset"];
-    let filteredTransactions;
+    let filteredTransactions: Transaction[];
 
     if (showAssets === "all") {
       filteredTransactions = mergeTransactionsByAsset(transactions);
     } else {
+      let asset = showAssets as BullionTypes;
       filteredTransactions = getTransactionsArray(
-        transactions[showAssets]
+        transactions[asset]
       );
     }
 
@@ -49,11 +55,10 @@ function Summary(props) {
   }
 
   const filteredTransactions = filterTransactions();
-  let purchases, sales;
+  let purchases = 0;
+  let sales = 0;
 
   if (filteredTransactions) {
-    purchases = sales = 0;
-
     filteredTransactions.forEach((t) => {
       if (
         props.showActions !== "all" &&
@@ -69,21 +74,25 @@ function Summary(props) {
     });
   }
 
-  return (
-    <div className="[ c-transactions__summaries ]">
-      {purchases > 0 && (
-        <span className="[ c-transactions__summary ]">
-          <b>Bought</b> {f.poundify(purchases)}
-        </span>
-      )}
+  if (purchases > 0 || sales > 0) {
+    return (
+      <div className="[ c-transactions__summaries ]">
+        {purchases > 0 && (
+          <span className="[ c-transactions__summary ]">
+            <b>Bought</b> {f.poundify(purchases)}
+          </span>
+        )}
 
-      {sales > 0 && (
-        <span className="[ c-transactions__summary ]">
-          <b>Sold</b> {f.poundify(sales)}
-        </span>
-      )}
-    </div>
-  );
-}
+        {sales > 0 && (
+          <span className="[ c-transactions__summary ]">
+            <b>Sold</b> {f.poundify(sales)}
+          </span>
+        )}
+      </div>
+    );
+  } else {
+    return <></>;
+  }
+};
 
 export default Summary;
