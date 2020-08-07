@@ -167,7 +167,6 @@ interface ITransactionListProps {
 }
 
 interface ITransactionYearGroupProps {
-  key: string;
   year: string;
   transactions: Transaction[];
   showAssets: string;

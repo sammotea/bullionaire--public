@@ -25,7 +25,6 @@ const Transactions: React.FC = () => {
     tempObj[f.showify(e.target.id)] = e.target.value;
 
     const updatedFilters = Object.assign({}, filters, tempObj);
-
     setFilters(updatedFilters);
   }
 
@@ -37,8 +36,8 @@ const Transactions: React.FC = () => {
           assets={assets}
           periods={periods}
           showActions={filters["showActions"]}
-          showPeriods={filters["showActions"]}
-          showAssets={filters["showActions"]}
+          showPeriods={filters["showPeriods"]}
+          showAssets={filters["showAssets"]}
         />
       );
     }
@@ -51,8 +50,8 @@ const Transactions: React.FC = () => {
           transactionsByYear={transactionsByYear}
           transactionsByAsset={transactionsByAsset}
           showActions={filters["showActions"]}
-          showPeriods={filters["showActions"]}
-          showAssets={filters["showActions"]}
+          showPeriods={filters["showPeriods"]}
+          showAssets={filters["showAssets"]}
         />
       );
     }
@@ -64,8 +63,8 @@ const Transactions: React.FC = () => {
         <List
           transactionsByYear={transactionsByYear}
           showActions={filters["showActions"]}
-          showPeriods={filters["showActions"]}
-          showAssets={filters["showActions"]}
+          showPeriods={filters["showPeriods"]}
+          showAssets={filters["showAssets"]}
         />
       );
     }

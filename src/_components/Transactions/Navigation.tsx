@@ -14,13 +14,9 @@ const Navigation: React.FC<ITransactionNavigationProps> = (props) => {
 
     if (userSelections) {
       return (
-        <>
-          (
-          <div className="[ c-transactions__filters ]">
-            {userSelections}
-          </div>
-          )
-        </>
+        <div className="[ c-transactions__filters ]">
+          {userSelections}
+        </div>
       );
     } else {
       return <></>;

@@ -4,7 +4,6 @@ import * as f from "../../../_helpers/formatter";
 import Item from "./Item";
 
 const Yeargroup: React.FC<ITransactionYearGroupProps> = ({
-  key,
   year,
   transactions,
   showAssets,
