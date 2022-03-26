@@ -1,278 +1,262 @@
 @import url("https://use.typekit.net/dle4jms.css");
 
-@import '__reset';
-@import '__mixins';
+@import "__reset";
+@import "__mixins";
 
-$c--black	:	black;
-$c--1		:	#f2f2f2;
-$c--2		:	#ddd;
-$c--3		:	#333;
-$c--white	:	#ffffff;
+$c--black: black;
+$c--1: #f2f2f2;
+$c--2: #ddd;
+$c--3: #333;
+$c--white: #ffffff;
 
-$c--text	:	$c--2;
+$c--text: $c--2;
 
-$space		:	1.5rem;
+$space: 1.5rem;
 
-$omega		:	.8rem;
-$alpha		:	1rem;
-$bravo		:	1.3rem;
-$charlie	:	1.67rem;
-$delta		:	2.6rem;
+$omega: 0.8rem;
+$alpha: 1rem;
+$bravo: 1.3rem;
+$charlie: 1.67rem;
+$delta: 2.6rem;
 
-$bp--1		:	32rem;
+$bp--1: 32rem;
 
 html {
-	font-family: freight-sans-pro, sans-serif;
-	font-size: clamp( 18px, 3vw, 24px)
+   font-family: freight-sans-pro, sans-serif;
+   font-size: clamp(18px, 3vw, 24px);
 }
 
 body {
-	color: $c--3;
-	max-width: 30rem;
-	margin-left: auto;
-	margin-right: auto;
+   color: $c--3;
+   max-width: 30rem;
+   margin-left: auto;
+   margin-right: auto;
 }
 
 .l-module {
-	padding: $space;
+   padding: $space;
 }
 
 .c-summary {
-	
-	h1 {
-		font-size: $delta;
-	}
-	
-	h2 {
-		font-size: $charlie;
-		font-weight: 400;
-	}
-	
-	@include bp( 'after', $bp--1 ) {
-		text-align: center;
-	}
-	
+   h1 {
+      font-size: $delta;
+   }
+
+   h2 {
+      font-size: $charlie;
+      font-weight: 400;
+   }
+
+   @include bp("after", $bp--1) {
+      text-align: center;
+   }
 }
 
 .c-assets {
-	display: flex;
-	background-color: $c--1;
-	border: 1px $c--2 solid;
-	
-	@include bp( 'before', $bp--1 ) {
-		flex-wrap: wrap;
-	}
+   display: flex;
+   background-color: $c--1;
+   border: 1px $c--2 solid;
+
+   @include bp("before", $bp--1) {
+      flex-wrap: wrap;
+   }
 }
 
 .c-asset {
-	width: 100%;
-	
-	h1 {
-		text-transform: capitalize;;
-	}
-	
-	h1, h2 {
-		font-size: $charlie;
-	}
-	
-	h2 {
-		font-weight: normal;
-	}
-	
-	small {
-		display: block;
-		font-size: $alpha;
-		margin-top: .125*$space;
-		text-transform: uppercase;
-	}
-	
-	ul {
-		list-style: none;
-		margin-top: .5*$space;
-	}
-	
-	li {
-		
-		&:first-child {
-			font-size: $bravo;
-			margin-bottom: .5*$space;
-		}
-		
-		&:last-child {
-			font-weight: bold;
-		}
-	}
-	
-	@include bp( 'before', $bp--1 ) {
-		padding: .25*$space $space;
-		padding-right: 0;
-		border-left: .25rem $c--2 solid;
-		
-		& + & {
-			margin-top: $space;
-		}
-		
-		h1, h2 {
-			display: inline-block;
-			line-height: 1;
-		}
-		
-		h2 {
-			&:before {
-				content: ' (';
-				white-space: pre;
-			}
-			
-			&:after {
-				content: ')';
-			}
-		}
-		
-	}
-	
-	@include bp( 'after', $bp--1 ) {
-		text-align: center;
-	}
-	
-	
+   width: 100%;
+
+   h1 {
+      text-transform: capitalize;
+   }
+
+   h1,
+   h2 {
+      font-size: $charlie;
+   }
+
+   h2 {
+      font-weight: normal;
+   }
+
+   small {
+      display: block;
+      font-size: $alpha;
+      margin-top: 0.125 * $space;
+      text-transform: uppercase;
+   }
+
+   ul {
+      list-style: none;
+      margin-top: 0.5 * $space;
+   }
+
+   li {
+      &:first-child {
+         font-size: $alpha;
+         margin-bottom: 0.5 * $space;
+      }
+
+      &:last-child {
+         font-weight: bold;
+      }
+   }
+
+   @include bp("before", $bp--1) {
+      padding: 0.25 * $space $space;
+      padding-right: 0;
+      border-left: 0.25rem $c--2 solid;
+
+      & + & {
+         margin-top: $space;
+      }
+
+      h1,
+      h2 {
+         display: inline-block;
+         line-height: 1;
+      }
+
+      h2 {
+         &:before {
+            content: " (";
+            white-space: pre;
+         }
+
+         &:after {
+            content: ")";
+         }
+      }
+   }
+
+   @include bp("after", $bp--1) {
+      text-align: center;
+   }
 }
 
 .c-transactions {
-	
-	> h1 {
-		font-size: $charlie;
-		
-		@include bp( 'after', $bp--1 ) {
-			text-align: center;
-		}
-	}
-	
+   > h1 {
+      font-size: $charlie;
+
+      @include bp("after", $bp--1) {
+         text-align: center;
+      }
+   }
 }
 
 .c-transactions__filters {
-	padding-top: .5*$space;
-	
-	@include bp( 'after', $bp--1 ) {
-		text-align: center;
-	}
-	
+   padding-top: 0.5 * $space;
+
+   @include bp("after", $bp--1) {
+      text-align: center;
+   }
 }
 
 .c-transactions__summaries {
-	padding: .5*$space 0;
-	font-size: $bravo;
-	
-	@include bp( 'after', $bp--1 ) {
-		text-align: center;
-	}
-	
-	span {
-		
-		@include bp( 'before', $bp--1 ) {
-			display: block;
-		}
-		
-		@include bp( 'after', $bp--1 ) {
-			
-			& + span {
-				
-				&:before {
-					content: ' / ';
-					white-space: pre;
-				}
-			}
-			
-		}
-	}
+   padding: 0.5 * $space 0;
+   font-size: $bravo;
+
+   @include bp("after", $bp--1) {
+      text-align: center;
+   }
+
+   span {
+      @include bp("before", $bp--1) {
+         display: block;
+      }
+
+      @include bp("after", $bp--1) {
+         & + span {
+            &:before {
+               content: " / ";
+               white-space: pre;
+            }
+         }
+      }
+   }
 }
 
 .c-transactions__list {
-	list-style: none;
+   list-style: none;
 }
 
 .c-transactions__list--yearGroups {
-	
-	@include bp( 'after', $bp--1 ) {
-		max-width: 75%;
-		margin-left: auto;
-		margin-right: auto;
-	}
-	
+   @include bp("after", $bp--1) {
+      max-width: 75%;
+      margin-left: auto;
+      margin-right: auto;
+   }
 }
 
 .c-transactions__yearGroup {
-	
-	@include bp( 'after', $bp--1 ) {
-		position: relative;
-		padding-left: 1.5*$space;
-		
-		& + & {
-			margin-top: $space;
-		}
-	}
+   @include bp("after", $bp--1) {
+      position: relative;
+      padding-left: 1.5 * $space;
+
+      & + & {
+         margin-top: $space;
+      }
+   }
 }
 
 .c-transactions__yearGroupTitle {
-	font-size: $bravo;
-	line-height: 1;
-		
-	@include bp( 'before', $bp--1 ) {
-		margin: .5*$space 0;
-		
-		li:first-child & {
-			margin-top: 0;
-		}	
-	}
-	
-	
-	
-	@include bp( 'after', $bp--1 ) {
-		font-size: $alpha;
-		font-weight: normal;
-		position: absolute;
-		left: 0;
-		top: $space; // magic
-		transform: translate3d( 0, -50%, 0 );
-	}
+   font-size: $bravo;
+   line-height: 1;
+
+   @include bp("before", $bp--1) {
+      margin: 0.5 * $space 0;
+
+      li:first-child & {
+         margin-top: 0;
+      }
+   }
+
+   @include bp("after", $bp--1) {
+      font-size: $alpha;
+      font-weight: normal;
+      position: absolute;
+      left: 0;
+      top: $space; // magic
+      transform: translate3d(0, -50%, 0);
+   }
 }
 
 .c-transactions__list--transactions {
-	border-left: .25rem $c--3 solid;
-	padding: .25*$space 0;
-	margin-left: 1rem; // magic
+   border-left: 0.25rem $c--3 solid;
+   padding: 0.25 * $space 0;
+   margin-left: 1rem; // magic
 }
 
 .c-transaction {
-	margin-left: $space;
-	position: relative;
-	
-	&:before {
-		content: '';
-		position: absolute;
-		left: -1.1*$space; // magic
-		top: 50%;
-		margin-top: -.125rem;
-		width: .5*$space;
-		border-top: .25rem $c--3 solid;
-		transform: translate3d( 0, -50%, 0 );
-	}
-	
-	& + & {
-		margin-top: .5*$space;
-	}
-	
-	h1 {
-		text-transform: uppercase;
-		
-		span + span {
-			&:before {
-				content: ', ';
-				white-space: pre;
-			}
-		}
-	}
-	
-	small {
-		font-size: $alpha;
-	}
+   margin-left: $space;
+   position: relative;
+
+   &:before {
+      content: "";
+      position: absolute;
+      left: -1.1 * $space; // magic
+      top: 50%;
+      margin-top: -0.125rem;
+      width: 0.5 * $space;
+      border-top: 0.25rem $c--3 solid;
+      transform: translate3d(0, -50%, 0);
+   }
+
+   & + & {
+      margin-top: 0.5 * $space;
+   }
+
+   h1 {
+      text-transform: uppercase;
+
+      span + span {
+         &:before {
+            content: ", ";
+            white-space: pre;
+         }
+      }
+   }
+
+   small {
+      font-size: $alpha;
+   }
 }

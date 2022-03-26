@@ -59,8 +59,6 @@ const Bullionaire: React.FC = () => {
       return "[ l-module | " + section + " ]";
    }
 
-   console.log(parser);
-
    function renderSummary() {
       return (
          <section className={getSectionClassNames("summary")}>
@@ -73,15 +71,19 @@ const Bullionaire: React.FC = () => {
       );
    }
 
-   // function renderAssets() {
-   //    if (aum && spotPrices) {
-   //       return (
-   //          <section className={getSectionClassNames("assets")}>
-   //             {/* <Assets {...{ aum, spotPrices }} /> */}
-   //          </section>
-   //       );
-   //    }
-   // }
+   function renderAssets() {
+      return (
+         <section className={getSectionClassNames("assets")}>
+            {
+               <Assets
+                  aum={parser.getAssetsSummary()}
+                  spotPrices={spotPrices}
+                  totalValue={parser.getValueOfAssetsUnderManagement()}
+               />
+            }
+         </section>
+      );
+   }
 
    function renderTransactions() {
       return (
@@ -94,7 +96,7 @@ const Bullionaire: React.FC = () => {
    return (
       <>
          {renderSummary()}
-         {/* {renderAssets()} */}
+         {renderAssets()}
          {renderTransactions()}
       </>
    );

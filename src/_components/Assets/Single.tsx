@@ -8,8 +8,6 @@ const Single: React.FC<ISingleAssetProps> = ({
    proportionalValue,
    spotPrice,
 }) => {
-   const balance = value;
-
    return (
       <div className="[ c-asset ]">
          <h1>{assetName}</h1>
@@ -23,14 +21,6 @@ const Single: React.FC<ISingleAssetProps> = ({
          <ul>
             <li>
                {f.kiloify(quantity)} @ {f.poundify(spotPrice)}/kg
-            </li>
-
-            <li>Bought at {f.poundify(quantity)}/kg</li>
-
-            <li>
-               {f.poundify(balance)}
-               {balance >= 0 ? " profit (+" : " loss ("}
-               {f.percentify(balance)})
             </li>
          </ul>
       </div>

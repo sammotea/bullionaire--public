@@ -141,8 +141,9 @@ interface ISummaryProps {
 }
 
 interface IAssetsProps {
-   aum: Aum;
+   aum: AssetsSummary;
    spotPrices: spotPrices;
+   totalValue: number;
 }
 
 interface ISingleAssetProps {
