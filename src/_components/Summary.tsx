@@ -1,18 +1,25 @@
 import React from "react";
 import * as f from "../_helpers/formatter";
 
-const Summary: React.FC<ISummaryProps> = ({ totalValue }) => {
-   const balance = totalValue;
-   const percDiff = f.percentify(balance);
+const Summary: React.FC<ISummaryProps> = ({
+   holdings,
+   lifetimeProfit,
+   lifetimeSpend,
+}) => {
+   const totalProfit = holdings + lifetimeProfit,
+      roi = totalProfit / lifetimeSpend;
 
    return (
       <>
-         <h1>{f.poundify(totalValue)}</h1>
+         <h1>{f.poundify(holdings)}</h1>
 
          <h2>
-            {f.poundify(balance)}
-            {balance > 0 ? " profit" : " loss"} (
-            {balance > 0 ? "+" + percDiff : percDiff})
+            {/* PENDING. This is ridiculous, Sam. String interpolation? */}
+            {f.poundify(totalProfit)}
+            {" lifetime"} {totalProfit > 0 ? " profit" : " loss"}
+            {" ("}
+            {roi >= 0 ? "+" : "-"}
+            {f.percentify(roi)})
          </h2>
       </>
    );

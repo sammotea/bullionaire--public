@@ -30,7 +30,6 @@ const Bullionaire: React.FC = () => {
       useState<SpotPrices>(manualSpotPrices);
 
    parser.init(transactions, spotPrices);
-   //parser.setAssetsUnderManagement(spotPrices);
 
    const fetchSpotPrices = async (url: string) => {
       let response = await fetch(url);
@@ -54,9 +53,6 @@ const Bullionaire: React.FC = () => {
       }
    }, [useManualPrices]);
 
-   // const totalValue = parser.getValueOfAssetsUnderManagement(),
-   //    aum = parser.getAssetsUnderManagement();
-
    function getSectionClassNames(section = "") {
       if (section) section = "c-" + section;
 
@@ -66,24 +62,26 @@ const Bullionaire: React.FC = () => {
    console.log(parser);
 
    function renderSummary() {
-      if (totalValue) {
-         return (
-            <section className={getSectionClassNames("summary")}>
-               <Summary {...{ totalValue }} />
-            </section>
-         );
-      }
+      return (
+         <section className={getSectionClassNames("summary")}>
+            <Summary
+               holdings={parser.getValueOfAssetsUnderManagement()}
+               lifetimeProfit={parser.getCashflowItem("profit")}
+               lifetimeSpend={parser.getCashflowItem("paid")}
+            />
+         </section>
+      );
    }
 
-   function renderAssets() {
-      if (aum && spotPrices) {
-         return (
-            <section className={getSectionClassNames("assets")}>
-               <Assets {...{ aum, spotPrices }} />
-            </section>
-         );
-      }
-   }
+   // function renderAssets() {
+   //    if (aum && spotPrices) {
+   //       return (
+   //          <section className={getSectionClassNames("assets")}>
+   //             {/* <Assets {...{ aum, spotPrices }} /> */}
+   //          </section>
+   //       );
+   //    }
+   // }
 
    function renderTransactions() {
       return (
@@ -96,7 +94,7 @@ const Bullionaire: React.FC = () => {
    return (
       <>
          {renderSummary()}
-         {renderAssets()}
+         {/* {renderAssets()} */}
          {renderTransactions()}
       </>
    );

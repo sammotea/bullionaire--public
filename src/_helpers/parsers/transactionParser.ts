@@ -448,13 +448,13 @@ const parser: IParser = {
       return Object.keys(transactionsByYear);
    },
 
-   // getAssetsUnderManagement(): Aum {
-   //    if (!this.aumIsKnown) {
-   //       /* throw error */
-   //    }
+   getAssetsSummary(): AssetsSummary {
+      if (!this.aumIsKnown) {
+         /* throw error */
+      }
 
-   //    return this.assetsUnderManagement;
-   // },
+      return this.assetSummaries;
+   },
 
    //  getCostOfAssetsUnderManagement(asset): number {
    //     if (!this.aumIsKnown) {
@@ -470,19 +470,29 @@ const parser: IParser = {
    //     }
    //  },
 
-   // getValueOfAssetsUnderManagement(asset): number {
-   //    if (!this.aumIsKnown) {
-   //       /* throw error */
-   //    }
+   getValueOfAssetsUnderManagement(asset: BullionTypes): number {
+      if (!this.aumIsKnown) {
+         console.log("Error getting asset values");
+      }
 
-   //    const aum = { ...this.assetsUnderManagement };
+      const aum = { ...this.assetSummaries };
 
-   //    if (asset) {
-   //       return aum["byAsset"][asset]["value"];
-   //    } else {
-   //       return aum["total"];
-   //    }
-   // },
+      if (asset) {
+         return aum[asset]["value"];
+      } else {
+         let totalValue = 0;
+
+         this.getAssetTypes().forEach((asset) => {
+            totalValue += aum[asset]["value"];
+         });
+
+         return totalValue;
+      }
+   },
+
+   getCashflowItem(search: "paid" | "received" | "profit"): number {
+      return this.cashflow[search];
+   },
 
    // getQuantityOfAssetsUnderManagement(
    //    asset

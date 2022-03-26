@@ -79,7 +79,7 @@ type Aum = {
 };
 
 type Cashflow = {
-   profit?: number;
+   profit: number;
    paid: number;
    received: number;
 };
@@ -125,16 +125,19 @@ interface IParser {
    ): Transaction[] | TransactionsByAsset;
    getAssetTypes(): BullionTypes[];
    getTransactionPeriods(): string[];
-   // getAssetsUnderManagement(): Aum;
+   getAssetsSummary(): AssetsSummary;
    // //getCostOfAssetsUnderManagement(a?: BullionTypes): number;
-   // getValueOfAssetsUnderManagement(a?: BullionTypes): number;
+   getValueOfAssetsUnderManagement(a?: BullionTypes): number;
    // getQuantityOfAssetsUnderManagement(
    //    a?: BullionTypes
    // ): number | { [K in BullionTypes]: number };
+   getCashflowItem(s: "paid" | "received" | "profit"): number;
 }
 
 interface ISummaryProps {
-   totalValue: number;
+   holdings: number;
+   lifetimeProfit: number;
+   lifetimeSpend: number;
 }
 
 interface IAssetsProps {
