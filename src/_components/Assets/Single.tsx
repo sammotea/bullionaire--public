@@ -20,7 +20,7 @@ const Single: React.FC<ISingleAssetProps> = ({
 
          <ul>
             <li>
-               {f.kiloify(quantity)} @ {f.poundify(spotPrice)}/kg
+               ({f.kiloify(quantity)} @ {f.poundify(spotPrice)}/kg)
             </li>
          </ul>
       </div>

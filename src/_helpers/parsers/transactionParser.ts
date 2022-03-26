@@ -65,7 +65,7 @@ const parser: IParser = {
 
          assetSummaries[asset].quantity += t.quantity;
          assetSummaries[asset][
-            t.action === "sell" ? "paid" : "received"
+            t.action === "sell" ? "received" : "paid"
          ] += Math.abs(t.cost);
       });
 
@@ -81,7 +81,7 @@ const parser: IParser = {
       } as Cashflow;
 
       transactions.forEach((t) => {
-         cashflow[t.action === "sell" ? "paid" : "received"] +=
+         cashflow[t.action === "sell" ? "received" : "paid"] +=
             Math.abs(t.cost);
       });
 
@@ -95,7 +95,7 @@ const parser: IParser = {
    calculateCashflowProfit(cashflow: Cashflow): number {
       const { paid, received } = cashflow;
 
-      return paid - received;
+      return received - paid;
    },
 
    mergeAndRefineTransactions(
