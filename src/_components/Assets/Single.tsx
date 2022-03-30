@@ -1,6 +1,14 @@
 import React from "react";
 import * as f from "../../_helpers/formatter";
 
+interface ISingleAssetProps {
+   assetName: BullionTypes;
+   quantity: number;
+   value: number;
+   proportionalValue: number;
+   spotPrice: number;
+}
+
 const Single: React.FC<ISingleAssetProps> = ({
    assetName,
    quantity,

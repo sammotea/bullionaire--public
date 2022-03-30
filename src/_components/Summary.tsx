@@ -1,6 +1,12 @@
 import React from "react";
 import * as f from "../_helpers/formatter";
 
+interface ISummaryProps {
+   holdings: number;
+   lifetimeProfit: number;
+   lifetimeSpend: number;
+}
+
 const Summary: React.FC<ISummaryProps> = ({
    holdings,
    lifetimeProfit,

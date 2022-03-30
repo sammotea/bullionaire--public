@@ -1,6 +1,12 @@
 import React from "react";
 import Single from "./Single";
 
+interface IAssetsProps {
+   aum: AssetsSummary;
+   spotPrices: SpotPrices;
+   totalValue: number;
+}
+
 const Assets: React.FC<IAssetsProps> = ({
    aum,
    spotPrices,
@@ -9,15 +15,18 @@ const Assets: React.FC<IAssetsProps> = ({
    function renderSnapshots() {
       const snapshots = [];
 
-      for (let asset in aum) {
-         const { value, quantity } = aum[asset as BullionTypes];
+      // Can only be these things (looping through aum below)
+      let asset: BullionTypes;
+
+      for (asset in aum) {
+         const { value, quantity } = aum[asset];
 
          snapshots.push(
             <Single
-               key={asset as BullionTypes}
-               assetName={asset as BullionTypes}
+               key={asset}
+               assetName={asset}
                proportionalValue={value / totalValue}
-               spotPrice={spotPrices[asset as BullionTypes]}
+               spotPrice={spotPrices[asset]}
                {...{ quantity, value }}
             />
          );

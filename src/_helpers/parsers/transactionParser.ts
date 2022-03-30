@@ -1,6 +1,6 @@
 // Pending: refactor to avoid repeat loops for calculations; use one central loop, somewhere.
 
-const parser: IParser = {
+const parser = {
    /***
     ****	Some Assumptions
     ****
@@ -39,7 +39,7 @@ const parser: IParser = {
          this.summariseAssets(this.transactions);
          this.summariseCashflow(this.transactions);
 
-         this.calculateAssetValues(spotPrices);
+         this.setAssetValues(spotPrices);
       } else {
          // error message
       }
@@ -322,7 +322,7 @@ const parser: IParser = {
       return { byYear: byYear, byAsset: byAsset };
    },
 
-   calculateAssetValues(spotPrices) {
+   setAssetValues(spotPrices: SpotPrices): void {
       const allAssetsAccountedFor =
          this.checkHaveAllAssets(spotPrices);
 
@@ -335,15 +335,12 @@ const parser: IParser = {
                this.assetSummaries[asset]["quantity"];
          });
          this.aumIsKnown = true;
-
-         return true;
       } else {
          console.log("Missing Assets!");
-         return false;
       }
    },
 
-   checkHaveAllAssets(spotPrices) {
+   checkHaveAllAssets(spotPrices: SpotPrices): boolean {
       const assets = this.getAssetTypes();
       let assetIsMissing = false;
 
@@ -377,59 +374,44 @@ const parser: IParser = {
       return assetTotals;
    },
 
-   calculateTotalValue(assetTotals) {
-      let value = 0;
-
-      for (let asset in assetTotals) {
-         let tAsset = asset as BullionTypes;
-         value += assetTotals[tAsset]["value"];
-      }
-
-      return value;
-   },
-
    getTransactions(): Transaction[] {
       return this.transactions;
    },
 
    getTransactionsByYear(
-      year,
-      asset
+      year?: string,
+      asset?: BullionTypes
    ): Transaction[] | TransactionsByYear {
-      const transactions = { ...this.transactionsByYear };
-      let result;
+      const transactions = {
+         ...this.transactionsByYear,
+      } as TransactionsByYear;
 
       if (year) {
          if (asset) {
-            result = transactions[year]["byAsset"][asset];
+            return transactions[year]["byAsset"][asset];
          } else {
-            result = transactions[year]["raw"];
+            return transactions[year]["raw"];
          }
       } else {
-         result = transactions;
+         return transactions;
       }
-
-      return result;
    },
 
    getTransactionsByAsset(
-      asset,
-      year
+      asset?: BullionTypes,
+      year?: string
    ): Transaction[] | TransactionsByAsset {
       const transactions = { ...this.transactionsByAsset };
-      let result;
 
       if (asset) {
          if (year) {
-            result = transactions[asset]["byYear"][year];
+            return transactions[asset]["byYear"][year];
          } else {
-            result = transactions[asset]["raw"];
+            return transactions[asset]["raw"];
          }
       } else {
-         result = transactions;
+         return transactions;
       }
-
-      return result;
    },
 
    getAssetTypes(): BullionTypes[] {
@@ -456,21 +438,7 @@ const parser: IParser = {
       return this.assetSummaries;
    },
 
-   //  getCostOfAssetsUnderManagement(asset): number {
-   //     if (!this.aumIsKnown) {
-   //        /* throw error */
-   //     }
-
-   //     const aum = { ...this.assetsUnderManagement };
-
-   //     if (asset) {
-   //        return aum["byAsset"][asset]["cost"];
-   //     } else {
-   //        return aum["total"];
-   //     }
-   //  },
-
-   getValueOfAssetsUnderManagement(asset: BullionTypes): number {
+   getValueOfAssetsUnderManagement(asset?: BullionTypes): number {
       if (!this.aumIsKnown) {
          console.log("Error getting asset values");
       }
@@ -493,29 +461,6 @@ const parser: IParser = {
    getCashflowItem(search: "paid" | "received" | "profit"): number {
       return this.cashflow[search];
    },
-
-   // getQuantityOfAssetsUnderManagement(
-   //    asset
-   // ): number | { [K in BullionTypes]: number } {
-   //    if (!this.aumIsKnown) {
-   //       /* throw error */
-   //    }
-
-   //    const aum = { ...this.assetsUnderManagement };
-
-   //    if (asset) {
-   //       return aum["byAsset"][asset]["quantity"];
-   //    } else {
-   //       const quantities = {} as { [K in BullionTypes]: number };
-
-   //       for (let asset in aum["byAsset"]) {
-   //          let tAsset = asset as BullionTypes;
-   //          quantities[tAsset] = aum["byAsset"][tAsset]["quantity"];
-   //       }
-
-   //       return quantities;
-   //    }
-   // },
 };
 
 export default parser;

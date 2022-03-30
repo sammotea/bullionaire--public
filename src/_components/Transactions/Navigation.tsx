@@ -1,132 +1,147 @@
 import React from "react";
 import * as f from "../../_helpers/formatter";
 
+interface ITransactionNavigationProps {
+   selectionHandler(e: React.ChangeEvent<HTMLSelectElement>): void;
+   assets: BullionTypes[];
+   periods: string[];
+   showActions: string;
+   showPeriods: string;
+   showAssets: string;
+}
+
+interface TransactionNavigationSelects {
+   actions: string[];
+   assets: BullionTypes[];
+   periods: string[];
+}
+
 const Navigation: React.FC<ITransactionNavigationProps> = (props) => {
-  function renderNavigation() {
-    const { assets, periods } = props;
-    const variables = {
-      actions: ["buy", "sell"],
-      assets: assets,
-      periods: periods,
-    } as TransactionNavigationSelects;
+   function renderNavigation() {
+      const { assets, periods } = props;
+      const variables = {
+         actions: ["buy", "sell"],
+         assets: assets,
+         periods: periods,
+      } as TransactionNavigationSelects;
 
-    const userSelections = getSelects(variables);
+      const userSelections = getSelects(variables);
 
-    if (userSelections) {
-      return (
-        <div className="[ c-transactions__filters ]">
-          {userSelections}
-        </div>
-      );
-    } else {
-      return <></>;
-    }
-  }
-  function setOptionValue(option: string): string {
-    return option;
-  }
+      if (userSelections) {
+         return (
+            <div className="[ c-transactions__filters ]">
+               {userSelections}
+            </div>
+         );
+      } else {
+         return <></>;
+      }
+   }
+   function setOptionValue(option: string): string {
+      return option;
+   }
 
-  function setOptionName(option: string, selectID?: string): string {
-    switch (option) {
-      case "buy":
-        option = "purchases";
-        break;
+   function setOptionName(option: string, selectID?: string): string {
+      switch (option) {
+         case "buy":
+            option = "purchases";
+            break;
 
-      case "sell":
-        option = "sales";
-        break;
+         case "sell":
+            option = "sales";
+            break;
 
-      case "all":
-        option = "All " + selectID;
-        break;
+         case "all":
+            option = "All " + selectID;
+            break;
 
-      default:
-        break;
-    }
+         default:
+            break;
+      }
 
-    return option;
-  }
+      return option;
+   }
 
-  function getSelectOptions(
-    optionsArray: string[],
-    selectID: keyof TransactionNavigationSelects
-  ) {
-    const options = [] as JSX.Element[];
-    const optionsLoop = optionsArray.concat(["all"]); // Add a default selection
+   function getSelectOptions(
+      optionsArray: string[],
+      selectID: keyof TransactionNavigationSelects
+   ) {
+      const options = [] as JSX.Element[];
+      const optionsLoop = optionsArray.concat(["all"]); // Add a default selection
 
-    optionsLoop.forEach((option) => {
-      const optionValue = setOptionValue(option);
-      const optionName = setOptionName(option, selectID);
+      optionsLoop.forEach((option) => {
+         const optionValue = setOptionValue(option);
+         const optionName = setOptionName(option, selectID);
 
-      options.push(
-        <option key={optionValue} value={optionValue}>
-          {optionName}
-        </option>
-      );
-    });
+         options.push(
+            <option key={optionValue} value={optionValue}>
+               {optionName}
+            </option>
+         );
+      });
 
-    return options;
-  }
+      return options;
+   }
 
-  function maybeAddConjunction(
-    selectID: keyof TransactionNavigationSelects
-  ) {
-    let conj;
+   function maybeAddConjunction(
+      selectID: keyof TransactionNavigationSelects
+   ) {
+      let conj;
 
-    switch (selectID) {
-      case "periods":
-        conj = " for ";
-        break;
+      switch (selectID) {
+         case "periods":
+            conj = " for ";
+            break;
 
-      case "assets":
-        conj = " of ";
-        break;
+         case "assets":
+            conj = " of ";
+            break;
 
-      default:
-        break;
-    }
+         default:
+            break;
+      }
 
-    return conj;
-  }
+      return conj;
+   }
 
-  function getSelects(
-    selectsObject: TransactionNavigationSelects
-  ): JSX.Element {
-    const selectsGroup = [] as JSX.Element[];
+   function getSelects(
+      selectsObject: TransactionNavigationSelects
+   ): JSX.Element {
+      const selectsGroup = [] as JSX.Element[];
 
-    let selectID: keyof TransactionNavigationSelects;
-    for (selectID in selectsObject) {
-      const selectOptions = getSelectOptions(
-        selectsObject[selectID],
-        selectID
-      );
+      let selectID: keyof TransactionNavigationSelects;
+      for (selectID in selectsObject) {
+         const selectOptions = getSelectOptions(
+            selectsObject[selectID],
+            selectID
+         );
 
-      const selection = f.showify(selectID) as
-        | "showActions"
-        | "showPeriods"
-        | "showAssets";
-      const selected = props[selection];
-      const conj = maybeAddConjunction(selectID);
+         const selection = f.showify(selectID) as
+            | "showActions"
+            | "showPeriods"
+            | "showAssets";
+         const selected = props[selection];
+         const conj = maybeAddConjunction(selectID);
 
-      selectsGroup.push(
-        <React.Fragment key={selectID}>
-          {conj && <span>{conj}</span>}
+         selectsGroup.push(
+            <React.Fragment key={selectID}>
+               {conj && <span>{conj}</span>}
 
-          <select
-            id={selectID}
-            onChange={props.selectionHandler}
-            value={selected}
-          >
-            {selectOptions}
-          </select>
-        </React.Fragment>
-      );
-    }
+               <select
+                  id={selectID}
+                  onChange={props.selectionHandler}
+                  value={selected}
+               >
+                  {selectOptions}
+               </select>
+            </React.Fragment>
+         );
+      }
 
-    return <>{selectsGroup}</>;
-  }
+      return <>{selectsGroup}</>;
+   }
 
-  return renderNavigation();
+   return renderNavigation();
 };
 
 export default Navigation;
