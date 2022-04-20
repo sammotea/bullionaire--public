@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import rawTransactions from "./json/realTransactions.json";
+import rawTransactions from "./json/fakeTransactions.json";
 
 import parser from "./_helpers/parsers/transactionParser";
 import * as spotPriceParser from "./_helpers/parsers/spotPriceParser";
