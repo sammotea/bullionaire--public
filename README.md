@@ -1,4 +1,4 @@
-# Bullionaire
+# Bullionaire
 
 [Demo Video](https://www.dropbox.com/s/xfw9yrhb19cv3k4/bullionaire.mov?dl=0)
 
